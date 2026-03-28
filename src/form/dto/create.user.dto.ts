@@ -2,14 +2,23 @@ import { Type } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
+  IsNumber,
   IsPhoneNumber,
+  IsPositive,
   IsString,
   IsUUID,
+  Max,
+  MaxLength,
 } from 'class-validator';
 
 export class UserDto {
   @IsUUID('4', { message: 'Give correct UUID' })
   id: string;
+
+  @IsNumber()
+  @Max(100)
+  @IsPositive()
+  age: number;
 
   @IsString()
   name: string;
@@ -28,5 +37,6 @@ export class UserDto {
   email: string;
 
   @IsString()
+  @MaxLength(250)
   description: string;
 }
