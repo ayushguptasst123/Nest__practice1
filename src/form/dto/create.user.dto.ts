@@ -1,7 +1,16 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsEmail, IsPhoneNumber, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsPhoneNumber,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class UserDto {
+  @IsUUID('4', { message: 'Give correct UUID' })
+  id: string;
+
   @IsString()
   name: string;
 
