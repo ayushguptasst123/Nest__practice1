@@ -4,10 +4,10 @@ import { FormService } from './form.service';
 
 @Controller('form')
 export class FormController {
-  private readonly formService: FormService;
-  constructor() {
-    this.formService = new FormService();
-  }
+  // private readonly formService: FormService;
+  // constructor() {
+  //   this.formService = new FormService();
+  // }
 
   @Post('/create')
   createNewUser(@Body() user: UserDto) {
@@ -19,6 +19,6 @@ export class FormController {
 
   @Get()
   showAllUsers() {
-    console.log(this.formService.findAll());
+    console.log(FormService.findAll());
   }
 }
