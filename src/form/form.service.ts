@@ -2,9 +2,9 @@
 
 // @Injectable()
 export class FormService {
-  private readonly users = [{ id: 1, name: 'John Doe' }];
+  private static readonly users = [{ id: 1, name: 'John Doe' }];
 
   static findAll() {
-    return new FormService().users;
+    return this.users;
   }
 }
