@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentEntity } from './student/entities/student.entity';
 import { ProfessorModule } from './professor/professor.module';
 import { ProfessorEntity } from './professor/entities/professor.entity';
+import { DataSource } from 'typeorm';
 
 @Module({
   controllers: [AppController],
@@ -33,5 +34,5 @@ import { ProfessorEntity } from './professor/entities/professor.entity';
  * But we didn't set true on production level
  */
 export class AppModule {
-  // constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) {}
 }

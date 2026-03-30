@@ -14,8 +14,8 @@ export class StudentEntity {
   @Column()
   name: string;
 
-  @Column()
-  age: number;
+  // @Column()
+  // age: number;
 
   @Column()
   dateOfBirth: Date;
