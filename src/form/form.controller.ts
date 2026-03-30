@@ -1,10 +1,14 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserDto } from './dto/create.user.dto';
 import { FormService } from './form.service';
+import { CarService } from 'src/car/car.service';
 
 @Controller('form')
 export class FormController {
-  constructor(private formService: FormService) {}
+  constructor(
+    private formService: FormService,
+    private carService: CarService,
+  ) {}
 
   @Post('/create')
   createNewUser(@Body() user: UserDto) {
@@ -27,5 +31,10 @@ export class FormController {
   @Get()
   showAllUser() {
     return this.formService.findAll();
+  }
+
+  @Get('/allCars')
+  showAllCars() {
+    return this.carService.showAll();
   }
 }

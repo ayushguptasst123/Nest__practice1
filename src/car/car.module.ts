@@ -9,5 +9,6 @@ import { FormModule } from 'src/form/form.module';
   controllers: [CarController],
   providers: [CarService],
   imports: [TypeOrmModule.forFeature([CarEntity]), FormModule],
+  exports: [CarService],
 })
 export class CarModule {}
