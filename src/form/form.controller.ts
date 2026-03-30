@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserDto } from './dto/create.user.dto';
 import { FormService } from './form.service';
 
@@ -12,8 +12,20 @@ export class FormController {
     return user;
   }
 
+  @Get(':id')
+  showSingleUser(@Param('id') id: string) {
+    console.log(typeof id);
+    return this.formService.findById(id);
+  }
+
+  @Post('/insert')
+  insertNewUser(@Body() user: UserDto) {
+    // this.formService.insetIntoDB(user);
+    return user;
+  }
+
   @Get()
-  showAllUsers() {
+  showAllUser() {
     return this.formService.findAll();
   }
 }
