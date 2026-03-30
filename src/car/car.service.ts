@@ -10,7 +10,7 @@ export class CarService {
     private readonly carRepository: Repository<CarEntity>,
   ) {}
 
-  showAll() {
-    return this.carRepository.find();
+  async showAll() {
+    return await this.carRepository.find();
   }
 }

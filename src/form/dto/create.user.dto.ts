@@ -6,14 +6,13 @@ import {
   IsPhoneNumber,
   IsPositive,
   IsString,
-  IsUUID,
   Max,
   MaxLength,
 } from 'class-validator';
 
 export class UserDto {
-  @IsUUID('4', { message: 'Give correct UUID' })
-  id: string;
+  // @IsUUID('4', { message: 'Give correct UUID' })
+  // id: string;
 
   @IsNumber()
   @Max(100)

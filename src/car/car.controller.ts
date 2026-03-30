@@ -1,12 +1,22 @@
 import { Controller, Get } from '@nestjs/common';
 import { CarService } from './car.service';
+import { FormService } from 'src/form/form.service';
 
 @Controller('car')
 export class CarController {
-  constructor(private carService: CarService) {}
+  constructor(
+    private carService: CarService,
+    private formService: FormService,
+  ) {}
 
-  @Get()
+  @Get('/allCar')
   showAllCar() {
     return this.carService.showAll();
+  }
+
+  @Get('/allUser')
+  showAllUsers() {
+    // return 'SOmething';
+    return this.formService.findAll();
   }
 }
