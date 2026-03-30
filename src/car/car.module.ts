@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CarController } from './car.controller';
 import { CarService } from './car.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +8,14 @@ import { FormModule } from 'src/form/form.module';
 @Module({
   controllers: [CarController],
   providers: [CarService],
-  imports: [TypeOrmModule.forFeature([CarEntity]), FormModule],
+  imports: [
+    forwardRef(() => FormModule),
+    TypeOrmModule.forFeature([CarEntity]),
+  ],
   exports: [CarService],
 })
-export class CarModule {}
+export class CarModule {
+  constructor() {
+    console.log('This is Car Module');
+  }
+}

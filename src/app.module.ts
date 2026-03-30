@@ -12,6 +12,7 @@ import { CarEntity } from './car/entities/car.entity';
   providers: [AppService],
   imports: [
     FormModule,
+    CarModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -22,7 +23,6 @@ import { CarEntity } from './car/entities/car.entity';
       entities: [UserEntity, CarEntity],
       synchronize: true,
     }),
-    CarModule,
   ],
 })
 /** synchronize: true

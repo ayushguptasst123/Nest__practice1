@@ -3,10 +3,14 @@ import { UserDto } from './dto/create.user.dto';
 import { FormService } from './form.service';
 import { CarService } from 'src/car/car.service';
 
+/**
+ * We need forwardRef() here if both the class directly calling each other
+ */
 @Controller('form')
 export class FormController {
   constructor(
     private formService: FormService,
+    // @Inject(forwardRef(() => CarService))
     private carService: CarService,
   ) {}
 
@@ -14,6 +18,16 @@ export class FormController {
   createNewUser(@Body() user: UserDto) {
     console.log(user);
     return user;
+  }
+
+  @Get()
+  showAllUser() {
+    return this.formService.findAll();
+  }
+
+  @Get('/allCars')
+  showAllCars() {
+    return this.carService.showAll();
   }
 
   @Get(':id')
@@ -26,15 +40,5 @@ export class FormController {
   insertNewUser(@Body() user: UserDto) {
     // this.formService.insetIntoDB(user);
     return user;
-  }
-
-  @Get()
-  showAllUser() {
-    return this.formService.findAll();
-  }
-
-  @Get('/allCars')
-  showAllCars() {
-    return this.carService.showAll();
   }
 }
