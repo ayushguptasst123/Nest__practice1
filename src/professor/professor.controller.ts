@@ -1,13 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { CarService } from './car.service';
-import { FormService } from 'src/form/form.service';
+import { ProfessorService } from './professor.service';
+import { StudentService } from 'src/student/student.service';
 
 @Controller('car')
-export class CarController {
+export class ProfessorController {
   constructor(
-    private carService: CarService,
+    private carService: ProfessorService,
     // @Inject(forwardRef(() => FormService))
-    private formService: FormService,
+    private formService: StudentService,
   ) {}
 
   @Get('/allCar')

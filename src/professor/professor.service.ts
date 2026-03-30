@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CarEntity } from './entities/car.entity';
+import { ProfessorEntity } from './entities/professor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class CarService {
+export class ProfessorService {
   constructor(
-    @InjectRepository(CarEntity)
-    private readonly carRepository: Repository<CarEntity>,
+    @InjectRepository(ProfessorEntity)
+    private readonly carRepository: Repository<ProfessorEntity>,
   ) {}
 
   async showAll() {

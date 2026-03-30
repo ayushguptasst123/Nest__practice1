@@ -10,7 +10,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class UserDto {
+export class StudentDto {
   // @IsUUID('4', { message: 'Give correct UUID' })
   // id: string;
 

@@ -1,6 +1,6 @@
 import { IsNegative, IsNumber, IsString, Max } from 'class-validator';
 
-export class CarDto {
+export class ProfessorDto {
   @IsNumber()
   @IsNegative()
   fullSpeed: number;

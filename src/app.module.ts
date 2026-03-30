@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { FormModule } from './form/form.module';
+import { StudentModule } from './student/student.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './form/entities/user.entity';
-import { CarModule } from './car/car.module';
-import { CarEntity } from './car/entities/car.entity';
+import { StudentEntity } from './student/entities/student.entity';
+import { ProfessorModule } from './professor/professor.module';
+import { ProfessorEntity } from './professor/entities/professor.entity';
 
 @Module({
   controllers: [AppController],
   providers: [AppService],
   imports: [
-    FormModule,
-    CarModule,
+    StudentModule,
+    ProfessorModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -20,16 +20,18 @@ import { CarEntity } from './car/entities/car.entity';
       username: 'root',
       password: 'sst@123',
       database: 'user',
-      entities: [UserEntity, CarEntity],
+      entities: [StudentEntity, ProfessorEntity],
       synchronize: true,
+      retryAttempts: 5,
     }),
   ],
 })
 /** synchronize: true
  * Tables are created automatically
  * Columns updated automatically
- * No need to write SQL manually
  *
  * But we didn't set true on production level
  */
-export class AppModule {}
+export class AppModule {
+  // constructor(private dataSource: DataSource) {}
+}

@@ -1,28 +1,28 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { UserDto } from './dto/create.user.dto';
-import { FormService } from './form.service';
-import { CarService } from 'src/car/car.service';
+import { StudentDto } from './dto/create.student.dto';
+import { StudentService } from './student.service';
+import { ProfessorService } from 'src/professor/professor.service';
 
 /**
  * We need forwardRef() here if both the class directly calling each other
  */
 @Controller('form')
-export class FormController {
+export class StudentController {
   constructor(
-    private formService: FormService,
+    private studentService: StudentService,
     // @Inject(forwardRef(() => CarService))
-    private carService: CarService,
+    private carService: ProfessorService,
   ) {}
 
   @Post('/create')
-  createNewUser(@Body() user: UserDto) {
+  createNewUser(@Body() user: StudentDto) {
     console.log(user);
     return user;
   }
 
   @Get()
   showAllUser() {
-    return this.formService.findAll();
+    return this.studentService.findAll();
   }
 
   @Get('/allCars')
@@ -33,11 +33,11 @@ export class FormController {
   @Get(':id')
   showSingleUser(@Param('id') id: string) {
     console.log(typeof id);
-    return this.formService.findById(id);
+    return this.studentService.findById(id);
   }
 
   @Post('/insert')
-  insertNewUser(@Body() user: UserDto) {
+  insertNewUser(@Body() user: StudentDto) {
     // this.formService.insetIntoDB(user);
     return user;
   }
