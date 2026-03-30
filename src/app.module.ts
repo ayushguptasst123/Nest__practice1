@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { FormModule } from './form/form.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './form/entities/user.entity';
+import { CarModule } from './car/car.module';
+import { CarEntity } from './car/entities/car.entity';
 
 @Module({
   controllers: [AppController],
@@ -17,9 +19,10 @@ import { UserEntity } from './form/entities/user.entity';
       username: 'root',
       password: 'sst@123',
       database: 'user',
-      entities: [UserEntity],
+      entities: [UserEntity, CarEntity],
       synchronize: true,
     }),
+    CarModule,
   ],
 })
 /** synchronize: true
