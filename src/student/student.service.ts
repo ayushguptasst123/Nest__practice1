@@ -42,9 +42,12 @@ export class StudentService implements OnModuleInit {
   }
 
   async findAll(): Promise<StudentEntity[]> {
-    return await this.studentRepository.query(
-      'select * from user.student_entity',
-    );
+    return await this.studentRepository.query('select * from user.students');
+    // return await this.studentRepository.find({
+    //   order: {
+    //     name: 'asc',
+    //   },
+    // });
   }
 
   async findByName() {

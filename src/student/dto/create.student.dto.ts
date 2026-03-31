@@ -8,14 +8,6 @@ import {
 } from 'class-validator';
 
 export class CreateStudentDto {
-  // @IsUUID('4', { message: 'Give correct UUID' })
-  // id: string;
-
-  // @IsNumber()
-  // @Max(100)
-  // @IsPositive()
-  // age: number;
-
   @IsString()
   name: string;
 
