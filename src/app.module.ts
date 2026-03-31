@@ -15,7 +15,7 @@ import { DataSource } from 'typeorm';
     StudentModule,
     ProfessorModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'mysql', //database driver
       host: 'localhost',
       port: 3306,
       username: 'root',
@@ -24,6 +24,7 @@ import { DataSource } from 'typeorm';
       entities: [StudentEntity, ProfessorEntity],
       synchronize: true,
       retryAttempts: 5,
+      logging: ['query', 'error'],
     }),
   ],
 })

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { ProfessorEntity } from './entities/professor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +11,8 @@ export class ProfessorService {
   ) {}
 
   async showAll() {
-    return await this.carRepository.find();
+    const data = await this.carRepository.find();
+    if (data) throw new NotFoundException('Professor not found');
+    return data;
   }
 }
