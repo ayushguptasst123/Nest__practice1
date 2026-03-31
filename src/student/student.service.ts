@@ -12,9 +12,7 @@ export class StudentService implements OnModuleInit {
 
   async onModuleInit() {
     const id = '9f1c2a7e-6b3d-4c8f-9a21-5d7e8b3c4a11';
-
     const student = await this.studentRepository.findOneBy({ id });
-
     if (!student) {
       console.log(`Seeding data`);
       const newStudent = this.studentRepository.create({

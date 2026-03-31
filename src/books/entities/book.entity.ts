@@ -5,41 +5,39 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum Role {
-  ADMIN = 'admin',
-  MANGER = 'manager',
-  USER = 'user',
-}
+import { Genre } from '../dto/create.book.dto';
 
 @Entity({
-  name: 'Students',
-  synchronize: false, //<-------Doubt
+  name: 'Books',
+  synchronize: false, //Must
 })
-export class StudentEntity {
+export class BookEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
+  @Column({
+    unique: true,
+  })
+  bookName: string;
 
   @Column()
-  dateOfBirth: Date;
+  authorName: string;
+
+  @Column({
+    type: 'enum',
+    enum: Genre,
+  })
+  genre: Genre;
 
   @Column()
-  address: string;
+  totalPage: number;
 
-  @Column()
-  phoneNumber: string;
-
-  @Column()
-  email: string;
-
-  @Column()
+  @Column({
+    name: 'book_description',
+    length: 1000,
+    nullable: true,
+  })
   description: string;
-
-  @Column()
-  role: Role;
 
   @CreateDateColumn()
   created_on: Date;
