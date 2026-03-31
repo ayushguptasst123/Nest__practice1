@@ -2,22 +2,22 @@ import { Controller, Get } from '@nestjs/common';
 import { ProfessorService } from './professor.service';
 import { StudentService } from 'src/student/student.service';
 
-@Controller('car')
+@Controller('professor')
 export class ProfessorController {
   constructor(
-    private carService: ProfessorService,
+    private professorService: ProfessorService,
     // @Inject(forwardRef(() => FormService))
-    private formService: StudentService,
+    private studentService: StudentService,
   ) {}
 
-  @Get('/allCar')
-  showAllCar() {
-    return this.carService.showAll();
+  @Get('/allProfessor')
+  showAllProfessor() {
+    return this.professorService.showAll();
   }
 
   @Get('/allUser')
-  showAllUsers() {
+  showAllStudent() {
     // return 'SOmething';
-    return this.formService.findAll();
+    return this.studentService.findAll();
   }
 }

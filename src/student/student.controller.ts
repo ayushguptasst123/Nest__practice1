@@ -6,13 +6,15 @@ import { ProfessorService } from 'src/professor/professor.service';
 /**
  * We need forwardRef() here if both the class directly calling each other
  */
-@Controller('form')
+@Controller('student')
 export class StudentController {
   constructor(
     private studentService: StudentService,
     // @Inject(forwardRef(() => CarService))
-    private carService: ProfessorService,
-  ) {}
+    private professorService: ProfessorService,
+  ) {
+    console.log('This is student controller');
+  }
 
   @Post('/create')
   createNewUser(@Body() user: StudentDto) {
@@ -27,7 +29,7 @@ export class StudentController {
 
   @Get('/allCars')
   showAllCars() {
-    return this.carService.showAll();
+    return this.professorService.showAll();
   }
 
   @Get(':id')

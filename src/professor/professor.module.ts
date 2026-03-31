@@ -10,12 +10,13 @@ import { StudentModule } from 'src/student/student.module';
   providers: [ProfessorService],
   imports: [
     forwardRef(() => StudentModule),
+
     TypeOrmModule.forFeature([ProfessorEntity]),
   ],
   exports: [ProfessorService],
 })
 export class ProfessorModule {
   constructor() {
-    console.log('This is Car Module');
+    console.log('This is Professor Module');
   }
 }
