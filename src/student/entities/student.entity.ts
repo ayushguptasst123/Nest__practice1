@@ -6,12 +6,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum Role {
-  ADMIN = 'admin',
-  MANGER = 'manager',
-  USER = 'user',
-}
-
 @Entity({
   name: 'Students',
   synchronize: false, //<-------Doubt
@@ -32,14 +26,13 @@ export class StudentEntity {
   @Column()
   phoneNumber: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   email: string;
 
   @Column()
   description: string;
-
-  @Column()
-  role: Role;
 
   @CreateDateColumn()
   created_on: Date;

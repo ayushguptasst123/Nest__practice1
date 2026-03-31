@@ -2,22 +2,19 @@ import { Type } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
-  IsNumber,
   IsPhoneNumber,
-  IsPositive,
   IsString,
-  Max,
   MaxLength,
 } from 'class-validator';
 
-export class StudentDto {
+export class CreateStudentDto {
   // @IsUUID('4', { message: 'Give correct UUID' })
   // id: string;
 
-  @IsNumber()
-  @Max(100)
-  @IsPositive()
-  age: number;
+  // @IsNumber()
+  // @Max(100)
+  // @IsPositive()
+  // age: number;
 
   @IsString()
   name: string;

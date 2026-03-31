@@ -1,7 +1,13 @@
-import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Role, StudentEntity } from './entities/student.entity';
+import { StudentEntity } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateStudentDto } from './dto/create.student.dto';
 
 @Injectable()
 export class StudentService implements OnModuleInit {
@@ -20,10 +26,9 @@ export class StudentService implements OnModuleInit {
         name: 'Riya Mehta',
         dateOfBirth: new Date(), // 🎲 random DOB between 18–30 years
         address: 'House No. 45, Sunrise Society, Navrangpura, Ahmedabad',
-        phoneNumber: '9123456789',
+        phoneNumber: '+919123456789',
         email: 'riya.mehta@gmail.com',
         description: 'new student entry',
-        role: Role.MANGER,
       });
       await this.studentRepository.save(newStudent);
       return newStudent;
@@ -41,6 +46,26 @@ export class StudentService implements OnModuleInit {
       'select * from user.student_entity',
     );
   }
+
+  async findByName() {
+    return await this.studentRepository.find({
+      select: {
+        name: true,
+        address: true,
+      },
+    });
+  }
+
+  async insertOneIntoDb(student: CreateStudentDto) {
+    try {
+      return await this.studentRepository.save(student);
+    } catch (err) {
+      if (err instanceof Error)
+        throw new InternalServerErrorException(err.message);
+      throw new InternalServerErrorException('Unknown error');
+    }
+  }
+
   /*
     Deep dive on other functions like .find(), .findOne() ...
   */

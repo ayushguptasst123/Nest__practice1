@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
-import { StudentDto } from './dto/create.student.dto';
+import { CreateStudentDto } from './dto/create.student.dto';
 import { StudentService } from './student.service';
 
 /**
@@ -12,15 +12,19 @@ export class StudentController {
   }
 
   @Post('/create')
-  createNewUser(@Body() user: StudentDto) {
-    console.log(user);
-    return user;
+  createNewUser(@Body() user: CreateStudentDto) {
+    return this.studentService.insertOneIntoDb(user);
   }
 
   @Get()
   @HttpCode(302)
   showAllUser() {
     return this.studentService.findAll();
+  }
+
+  @Get('/dummy')
+  dummyController() {
+    return this.studentService.findByName();
   }
 
   @Get('/allProfessors')
