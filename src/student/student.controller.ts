@@ -1,17 +1,13 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { StudentDto } from './dto/create.student.dto';
 import { StudentService } from './student.service';
-import { ProfessorService } from 'src/professor/professor.service';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
  */
 @Controller('student')
 export class StudentController {
-  constructor(
-    private studentService: StudentService,
-    private professorService: ProfessorService,
-  ) {
+  constructor(private studentService: StudentService) {
     console.log('This is student controller');
   }
 
@@ -29,9 +25,7 @@ export class StudentController {
 
   @Get('/allProfessors')
   @HttpCode(302)
-  showAllProfessors() {
-    return this.professorService.showAll();
-  }
+  showAllProfessors() {}
 
   @Get(':id')
   @HttpCode(302)
