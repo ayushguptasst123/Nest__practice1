@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
-import { CreateStudentDto } from './dto/create.student.dto';
-import { StudentService } from './student.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateStudentDto } from './dtos/create.student.dto';
+import { StudentService } from './students.service';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
@@ -17,7 +17,6 @@ export class StudentController {
   }
 
   @Get()
-  @HttpCode(302)
   showAllUser() {
     return this.studentService.findAll();
   }
@@ -28,11 +27,9 @@ export class StudentController {
   }
 
   @Get('/allProfessors')
-  @HttpCode(302)
   showAllProfessors() {}
 
   @Get(':id')
-  @HttpCode(302)
   showSingleUser(@Param('id') id: string) {
     console.log(typeof id);
     return this.studentService.findById(id);

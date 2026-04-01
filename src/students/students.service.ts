@@ -5,15 +5,15 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { StudentEntity } from './entities/student.entity';
+import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateStudentDto } from './dto/create.student.dto';
+import { CreateStudentDto } from './dtos/create.student.dto';
 
 @Injectable()
 export class StudentService implements OnModuleInit {
   constructor(
-    @InjectRepository(StudentEntity)
-    private studentRepository: Repository<StudentEntity>,
+    @InjectRepository(Student)
+    private studentRepository: Repository<Student>,
   ) {}
 
   async onModuleInit() {
@@ -41,7 +41,7 @@ export class StudentService implements OnModuleInit {
     return user;
   }
 
-  async findAll(): Promise<StudentEntity[]> {
+  async findAll(): Promise<Student[]> {
     return await this.studentRepository.query('select * from user.students');
     // return await this.studentRepository.find({
     //   order: {

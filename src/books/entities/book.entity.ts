@@ -7,11 +7,8 @@ import {
 } from 'typeorm';
 import { Genre } from '../dto/create.book.dto';
 
-@Entity({
-  name: 'Books',
-  synchronize: false, //Must
-})
-export class BookEntity {
+@Entity()
+export class Book {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

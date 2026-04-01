@@ -1,16 +1,14 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({
-  name: 'Students',
-  synchronize: false, //<-------Doubt
-})
-export class StudentEntity {
+@Entity('Students')
+export class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -35,14 +33,11 @@ export class StudentEntity {
   description: string;
 
   @CreateDateColumn()
-  created_on: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  update_on: Date;
+  updatedAt: Date;
 
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  deleted_on: boolean | Date;
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

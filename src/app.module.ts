@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { StudentModule } from './student/student.module';
+import { StudentModule } from './students/students.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StudentEntity } from './student/entities/student.entity';
+import { Student } from './students/entities/student.entity';
 import { DataSource } from 'typeorm';
 import { BooksModule } from './books/books.module';
-import { BookEntity } from './books/entities/book.entity';
+import { Book } from './books/entities/book.entity';
 
 @Module({
   controllers: [AppController],
@@ -21,8 +21,8 @@ import { BookEntity } from './books/entities/book.entity';
       username: 'root',
       password: 'sst@123',
       database: 'user',
-      entities: [StudentEntity, BookEntity],
-      synchronize: true,
+      entities: [Student, Book],
+      synchronize: false,
       retryAttempts: 5,
       logging: ['error'],
     }),
