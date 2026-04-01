@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -27,7 +28,7 @@ export class Book {
   genre: Genre;
 
   @Column()
-  totalPage: number;
+  totalPages: number;
 
   @Column({
     name: 'book_description',
@@ -37,14 +38,11 @@ export class Book {
   description: string;
 
   @CreateDateColumn()
-  created_on: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  update_on: Date;
+  updatedAt: Date;
 
-  @Column({
-    type: 'boolean',
-    default: false,
-  })
-  deleted_on: boolean | Date;
+  @DeleteDateColumn()
+  deletedAt: Date;
 }
