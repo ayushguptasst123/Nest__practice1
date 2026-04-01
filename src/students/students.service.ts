@@ -1,8 +1,7 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
-  InternalServerErrorException,
-  OnModuleInit,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
@@ -10,30 +9,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create.student.dto';
 
 @Injectable()
-export class StudentService implements OnModuleInit {
+export class StudentService {
   constructor(
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
   ) {}
-
-  async onModuleInit() {
-    const id = '9f1c2a7e-6b3d-4c8f-9a21-5d7e8b3c4a11';
-    const student = await this.studentRepository.findOneBy({ id });
-    if (!student) {
-      console.log(`Seeding data`);
-      const newStudent = this.studentRepository.create({
-        id: id,
-        name: 'Riya Mehta',
-        dateOfBirth: new Date(), // 🎲 random DOB between 18–30 years
-        address: 'House No. 45, Sunrise Society, Navrangpura, Ahmedabad',
-        phoneNumber: '+919123456789',
-        email: 'riya.mehta@gmail.com',
-        description: 'new student entry',
-      });
-      await this.studentRepository.save(newStudent);
-      return newStudent;
-    }
-  }
 
   async findById(id: string) {
     const user = await this.studentRepository.findOneBy({ id });
@@ -50,26 +30,33 @@ export class StudentService implements OnModuleInit {
     // });
   }
 
-  async findByName() {
-    return await this.studentRepository.find({
-      select: {
-        name: true,
-        address: true,
-      },
-    });
+  async findByEmail(email: string) {
+    return await this.studentRepository.find({ where: { email } });
   }
 
   async insertOneIntoDb(student: CreateStudentDto) {
-    try {
-      return await this.studentRepository.save(student);
-    } catch (err) {
-      if (err instanceof Error)
-        throw new InternalServerErrorException(err.message);
-      throw new InternalServerErrorException('Unknown error');
+    const fetchedUser = await this.findByEmail(student.email);
+    if (fetchedUser.length != 0) {
+      throw new ConflictException('Email already exists');
     }
+
+    const user = this.studentRepository.create(student);
+
+    user.password = `hashed_${user.password}`;
+
+    return await this.studentRepository.save(user);
   }
 
-  /*
-    Deep dive on other functions like .find(), .findOne() ...
-  */
+  async saveViaInsert(user: CreateStudentDto) {
+    const fetchedUser = await this.findByEmail(user.email);
+    console.log(fetchedUser);
+    if (fetchedUser.length != 0) {
+      throw new ConflictException('Email already exists');
+    }
+
+    const createUser = this.studentRepository.create(user);
+
+    await this.studentRepository.insert(createUser);
+    return createUser;
+  }
 }

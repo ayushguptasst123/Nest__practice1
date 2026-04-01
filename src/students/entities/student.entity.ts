@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -24,6 +26,9 @@ export class Student {
   @Column()
   phoneNumber: string;
 
+  @Column()
+  password: string;
+
   @Column({
     unique: true,
   })
@@ -40,4 +45,14 @@ export class Student {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @BeforeInsert()
+  beforeInsert() {
+    console.log('I print text before insert');
+  }
+
+  @BeforeUpdate()
+  beforeUpdate() {
+    console.log('I print text before insert');
+  }
 }

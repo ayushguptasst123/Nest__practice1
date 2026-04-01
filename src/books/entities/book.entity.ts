@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Genre } from '../dto/create.book.dto';
 
-@Entity()
+@Entity('books')
 export class Book {
   @PrimaryGeneratedColumn('uuid')
   id: string;

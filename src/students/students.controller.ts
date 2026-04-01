@@ -16,14 +16,17 @@ export class StudentController {
     return this.studentService.insertOneIntoDb(user);
   }
 
+  /**
+   * This way use .insert() to save data in db
+   */
+  @Post('/insert')
+  insertNewUser(@Body() user: CreateStudentDto) {
+    return this.studentService.saveViaInsert(user);
+  }
+
   @Get()
   showAllUser() {
     return this.studentService.findAll();
-  }
-
-  @Get('/dummy')
-  dummyController() {
-    return this.studentService.findByName();
   }
 
   @Get('/allProfessors')
