@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -37,12 +33,14 @@ export class StudentService {
   async insertOneIntoDb(student: CreateStudentDto) {
     const fetchedUser = await this.findByEmail(student.email);
     if (fetchedUser.length != 0) {
-      throw new ConflictException('Email already exists');
+      throw new BadRequestException('Email already exists');
     }
 
     const user = this.studentRepository.create(student);
 
     user.password = `hashed_${user.password}`;
+    console.log('Here ----->', this.calculateAge(student.dateOfBirth));
+    // user.age = this.calculateAge(student.dateOfBirth);
 
     return await this.studentRepository.save(user);
   }
@@ -51,12 +49,33 @@ export class StudentService {
     const fetchedUser = await this.findByEmail(user.email);
     console.log(fetchedUser);
     if (fetchedUser.length != 0) {
-      throw new ConflictException('Email already exists');
+      throw new BadRequestException('Email already exists');
     }
 
     const createUser = this.studentRepository.create(user);
 
     await this.studentRepository.insert(createUser);
     return createUser;
+  }
+
+  // -------------------------------------------------
+  // Calculate the age based on the given dateOfBirth
+  // -------------------------------------------------
+  calculateAge(dob: Date) {
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
   }
 }

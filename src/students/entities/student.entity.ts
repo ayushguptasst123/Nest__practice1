@@ -17,6 +17,9 @@ export class Student {
   @Column()
   name: string;
 
+  // @Column()
+  // age: number;
+
   @Column()
   dateOfBirth: Date;
 
@@ -46,6 +49,7 @@ export class Student {
   @DeleteDateColumn()
   deletedAt: Date;
 
+  // Lifecycle Hook
   @BeforeInsert()
   beforeInsert() {
     console.log('I print text before insert');
