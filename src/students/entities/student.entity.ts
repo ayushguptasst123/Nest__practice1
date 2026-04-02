@@ -1,6 +1,7 @@
 import {
   BeforeInsert,
   BeforeUpdate,
+  Check,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -10,6 +11,7 @@ import {
 } from 'typeorm';
 
 @Entity('Students')
+@Check(`("age">0 and "age"<=100)`)
 export class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,8 +19,10 @@ export class Student {
   @Column()
   name: string;
 
-  // @Column()
-  // age: number;
+  @Column({
+    type: 'int',
+  })
+  age: number;
 
   @Column()
   dateOfBirth: Date;
@@ -37,7 +41,7 @@ export class Student {
   })
   email: string;
 
-  @Column()
+  @Column({ length: 500 })
   description: string;
 
   @CreateDateColumn()

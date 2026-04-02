@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateStudentDto } from './dtos/create.student.dto';
+import { CreateStudentDto } from './dtos/create-student.dto';
 import { StudentService } from './students.service';
 
 /**
