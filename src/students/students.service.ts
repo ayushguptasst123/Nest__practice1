@@ -39,15 +39,13 @@ export class StudentService {
     const user = this.studentRepository.create(student);
 
     user.password = `hashed_${user.password}`;
-    console.log('Here ----->', this.calculateAge(student.dateOfBirth));
-    // user.age = this.calculateAge(student.dateOfBirth);
+    user.age = this.calculateAge(student.dateOfBirth);
 
     return await this.studentRepository.save(user);
   }
 
   async saveViaInsert(user: CreateStudentDto) {
     const fetchedUser = await this.findByEmail(user.email);
-    console.log(fetchedUser);
     if (fetchedUser.length != 0) {
       throw new BadRequestException('Email already exists');
     }

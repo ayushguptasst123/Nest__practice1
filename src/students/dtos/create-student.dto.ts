@@ -9,7 +9,10 @@ import {
 
 export class CreateStudentDto {
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsString()
+  lastName: string;
 
   @IsString()
   password: string;
