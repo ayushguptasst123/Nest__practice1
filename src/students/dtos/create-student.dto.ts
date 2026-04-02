@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
+  IsOptional,
   IsPhoneNumber,
   IsString,
   MaxLength,
@@ -31,6 +32,7 @@ export class CreateStudentDto {
   email: string;
 
   @IsString()
+  @IsOptional()
   @MaxLength(250)
-  description: string;
+  description?: string;
 }

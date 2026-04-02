@@ -44,7 +44,7 @@ export class Student {
   })
   email: string;
 
-  @Column({ length: 500 })
+  @Column({ length: 500, nullable: true })
   description: string;
 
   @CreateDateColumn()

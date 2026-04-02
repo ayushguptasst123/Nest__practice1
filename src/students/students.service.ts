@@ -15,18 +15,13 @@ export class StudentService {
   // FIND STUDENTS FUNCTIONS HERE
   // ***************************
   async findById(id: string) {
-    const user = await this.studentRepository.findOneBy({ id });
-    if (!user) throw new BadRequestException();
-    return user;
+    const student = await this.studentRepository.findOneBy({ id });
+    if (!student) throw new BadRequestException();
+    return student;
   }
 
   async findAll(): Promise<Student[]> {
     return await this.studentRepository.query('select * from user.students');
-    // return await this.studentRepository.find({
-    //   order: {
-    //     name: 'asc',
-    //   },
-    // });
   }
 
   async findByEmail(email: string) {
@@ -74,29 +69,31 @@ export class StudentService {
   // SAVE STUDENT FUNCTIONS HERE
   // ***************************
   async insertOneIntoDb(student: CreateStudentDto) {
-    const fetchedUser = await this.findByEmail(student.email);
-    if (fetchedUser.length != 0) {
+    const fetchedStudent = await this.findByEmail(student.email);
+    if (fetchedStudent.length != 0) {
       throw new BadRequestException('Email already exists');
     }
 
-    const user = this.studentRepository.create(student);
+    const createStudent = this.studentRepository.create(student);
 
-    user.password = `hashed_${user.password}`;
-    user.age = this.calculateAge(student.dateOfBirth);
+    createStudent.password = `hashed_${student.password}`;
+    createStudent.age = this.calculateAge(student.dateOfBirth);
 
-    return await this.studentRepository.save(user);
+    return await this.studentRepository.save(student);
   }
 
-  async saveViaInsert(user: CreateStudentDto) {
-    const fetchedUser = await this.findByEmail(user.email);
-    if (fetchedUser.length != 0) {
+  async saveViaInsert(student: CreateStudentDto) {
+    const fetchedStudent = await this.findByEmail(student.email);
+    if (fetchedStudent.length != 0) {
       throw new BadRequestException('Email already exists');
     }
 
-    const createUser = this.studentRepository.create(user);
+    const createStudent = this.studentRepository.create(student);
+    createStudent.password = `hashed_${student.password}`;
+    createStudent.age = this.calculateAge(student.dateOfBirth);
 
-    await this.studentRepository.insert(createUser);
-    return createUser;
+    await this.studentRepository.insert(createStudent);
+    return createStudent;
   }
 
   // ***************************
