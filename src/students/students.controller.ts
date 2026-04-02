@@ -11,6 +11,33 @@ export class StudentController {
     console.log('This is student controller');
   }
 
+  // ************************************
+  // Fetch students from db
+  // ************************************
+  @Get()
+  showAllUser() {
+    return this.studentService.findAll();
+  }
+
+  @Get('/lastName')
+  showBasedOnLastName(@Query('lastName') lastName: string) {
+    return this.studentService.findByLastName(lastName);
+  }
+
+  @Get('/showBetween')
+  showAllProfessors(
+    @Query('fromAge') fromAge: string,
+    @Query('toAge') toAge: string,
+  ) {
+    return this.studentService.findStudentBetweenAge(fromAge, toAge);
+  }
+
+  @Get(':id')
+  showSingleUser(@Param('id') id: string) {
+    console.log(typeof id);
+    return this.studentService.findById(id);
+  }
+
   @Post('/create')
   createNewUser(@Body() user: CreateStudentDto) {
     return this.studentService.insertOneIntoDb(user);
@@ -22,24 +49,5 @@ export class StudentController {
   @Post('/insert')
   insertNewUser(@Body() user: CreateStudentDto) {
     return this.studentService.saveViaInsert(user);
-  }
-
-  @Get()
-  showAllUser() {
-    return this.studentService.findAll();
-  }
-
-  @Get('/lastName')
-  showBasedOnLastName(@Query('lastName') lastName: string) {
-    return this.studentService.findByLastName(lastName);
-  }
-
-  @Get('/allProfessors')
-  showAllProfessors() {}
-
-  @Get(':id')
-  showSingleUser(@Param('id') id: string) {
-    console.log(typeof id);
-    return this.studentService.findById(id);
   }
 }

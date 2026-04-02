@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
@@ -11,7 +11,9 @@ export class StudentService {
     private studentRepository: Repository<Student>,
   ) {}
 
-  // FIND STUDENTS FLAGS HERE
+  // ***************************
+  // FIND STUDENTS FUNCTIONS HERE
+  // ***************************
   async findById(id: string) {
     const user = await this.studentRepository.findOneBy({ id });
     if (!user) throw new BadRequestException();
@@ -41,7 +43,22 @@ export class StudentService {
     return foundStudent;
   }
 
-  // SAVE STUDENT FLAGS HERE
+  async findStudentBetweenAge(fromAge, toAge) {
+    const fetchedStudent = await this.studentRepository.find({
+      where: { age: Between(fromAge, toAge) },
+    });
+
+    if (fetchedStudent.length === 0)
+      throw new BadRequestException(
+        `Students between ${fromAge}-${toAge} is not exists`,
+      );
+
+    return fetchedStudent;
+  }
+
+  // ***************************
+  // SAVE STUDENT FUNCTIONS HERE
+  // ***************************
   async insertOneIntoDb(student: CreateStudentDto) {
     const fetchedUser = await this.findByEmail(student.email);
     if (fetchedUser.length != 0) {
@@ -68,9 +85,13 @@ export class StudentService {
     return createUser;
   }
 
-  // UPDATE STUDENT FLAG HERE
+  // ***************************
+  // UPDATE STUDENT FUNCTIONS HERE
+  // ***************************
 
-  // REMOVE STUDENT FLAG HERE
+  // ***************************
+  // REMOVE STUDENT FUNCTIONS HERE
+  // ***************************
 
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth
