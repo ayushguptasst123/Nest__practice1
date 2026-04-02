@@ -37,6 +37,14 @@ export class StudentController {
     return this.studentService.findBasedOnLike(description);
   }
 
+  @Get('/sort')
+  showBasedOnSort(
+    @Query('sortField') sortColumn: string,
+    @Query('order') sortOrder: string,
+  ) {
+    return this.studentService.findWithSortAge(sortColumn, sortOrder);
+  }
+
   @Get(':id')
   showSingleUser(@Param('id') id: string) {
     console.log(typeof id);

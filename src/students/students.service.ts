@@ -63,6 +63,13 @@ export class StudentService {
     if (fetchedStudent.length === 0) throw new BadRequestException('Not Found');
     return fetchedStudent;
   }
+
+  async findWithSortAge(sort: string, sortOrder: string) {
+    return this.studentRepository.find({
+      order: { [sort]: sortOrder.toUpperCase() },
+    });
+  }
+
   // ***************************
   // SAVE STUDENT FUNCTIONS HERE
   // ***************************
