@@ -11,6 +11,7 @@ export class StudentService {
     private studentRepository: Repository<Student>,
   ) {}
 
+  // FIND STUDENTS FLAGS HERE
   async findById(id: string) {
     const user = await this.studentRepository.findOneBy({ id });
     if (!user) throw new BadRequestException();
@@ -30,6 +31,17 @@ export class StudentService {
     return await this.studentRepository.find({ where: { email } });
   }
 
+  async findByLastName(lastName: string) {
+    const foundStudent = await this.studentRepository.find({
+      where: { lastName: lastName },
+    });
+
+    if (foundStudent.length === 0)
+      throw new BadRequestException(`Student didn't exists with ${lastName}`);
+    return foundStudent;
+  }
+
+  // SAVE STUDENT FLAGS HERE
   async insertOneIntoDb(student: CreateStudentDto) {
     const fetchedUser = await this.findByEmail(student.email);
     if (fetchedUser.length != 0) {
@@ -55,6 +67,10 @@ export class StudentService {
     await this.studentRepository.insert(createUser);
     return createUser;
   }
+
+  // UPDATE STUDENT FLAG HERE
+
+  // REMOVE STUDENT FLAG HERE
 
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth

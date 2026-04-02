@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { StudentService } from './students.service';
 
@@ -27,6 +27,11 @@ export class StudentController {
   @Get()
   showAllUser() {
     return this.studentService.findAll();
+  }
+
+  @Get('/lastName')
+  showBasedOnLastName(@Query('lastName') lastName: string) {
+    return this.studentService.findByLastName(lastName);
   }
 
   @Get('/allProfessors')
