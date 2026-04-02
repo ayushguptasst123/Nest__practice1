@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Between, Repository } from 'typeorm';
+import { Between, Like, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
@@ -56,6 +56,13 @@ export class StudentService {
     return fetchedStudent;
   }
 
+  async findBasedOnLike(description: string) {
+    const fetchedStudent = await this.studentRepository.find({
+      where: { description: Like(`%${description}%`) },
+    });
+    if (fetchedStudent.length === 0) throw new BadRequestException('Not Found');
+    return fetchedStudent;
+  }
   // ***************************
   // SAVE STUDENT FUNCTIONS HERE
   // ***************************

@@ -25,11 +25,16 @@ export class StudentController {
   }
 
   @Get('/showBetween')
-  showAllProfessors(
+  showSpecificGroup(
     @Query('fromAge') fromAge: string,
     @Query('toAge') toAge: string,
   ) {
     return this.studentService.findStudentBetweenAge(fromAge, toAge);
+  }
+
+  @Get('/like')
+  showBasedOnLike(@Query('description') description: string) {
+    return this.studentService.findBasedOnLike(description);
   }
 
   @Get(':id')
@@ -38,6 +43,9 @@ export class StudentController {
     return this.studentService.findById(id);
   }
 
+  // ************************************
+  // Save students to db
+  // ************************************
   @Post('/create')
   createNewUser(@Body() user: CreateStudentDto) {
     return this.studentService.insertOneIntoDb(user);
@@ -50,4 +58,12 @@ export class StudentController {
   insertNewUser(@Body() user: CreateStudentDto) {
     return this.studentService.saveViaInsert(user);
   }
+
+  // ************************************
+  // Update students to db
+  // ************************************
+
+  // ************************************
+  // Delete students from db
+  // ************************************
 }
