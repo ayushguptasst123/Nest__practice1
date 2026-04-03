@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   Patch,
   Post,
@@ -121,5 +120,10 @@ export class StudentController {
   @Delete('/remove')
   removeStudent(@Query('id') id: string) {
     return this.studentService.removeStudent(id);
+  }
+
+  @Delete('/age')
+  deleteStudentBasedOnAge(@Query('age') age: string) {
+    return this.studentService.deleteBasedOnAge(parseInt(age));
   }
 }

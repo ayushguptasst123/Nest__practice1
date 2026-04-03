@@ -170,8 +170,17 @@ export class StudentService {
     }
   }
 
-  
-
+  async deleteBasedOnAge(age: number) {
+    try {
+      return await this.studentRepository.delete({ age });
+    } catch (error) {
+      console.error('you got error in Service class ', error);
+      throw new HttpException(
+        `You got error in service class ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth
   // -------------------------------------------------
