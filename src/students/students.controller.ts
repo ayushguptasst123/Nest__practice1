@@ -34,6 +34,11 @@ export class StudentController {
     return this.studentService.findByLastName(lastName);
   }
 
+  @Get('/show-removed')
+  showRemovedStudents() {
+    return this.studentService.findRemovedStudents();
+  }
+
   @Get('/showBetween')
   showSpecificGroup(
     @Query('fromAge') fromAge: string,

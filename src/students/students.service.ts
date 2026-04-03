@@ -4,7 +4,7 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { Between, Like, Repository } from 'typeorm';
+import { Between, IsNull, Like, Not, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
@@ -34,6 +34,16 @@ export class StudentService {
       throw new BadRequestException('No Student found');
 
     return fetchedStudent;
+  }
+
+  async findRemovedStudents() {
+    console.log('Hii there');
+    return await this.studentRepository.find({
+      withDeleted: true,
+      where: {
+        deletedAt: Not(IsNull()),
+      },
+    });
   }
 
   async findByEmail(email: string) {
