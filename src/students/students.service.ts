@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Between, Like, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -151,6 +156,21 @@ export class StudentService {
   async softDeleteStudent(id: string) {
     return await this.studentRepository.softDelete(id);
   }
+
+  async removeStudent(id: string) {
+    try {
+      const student = await this.findById(id);
+      return await this.studentRepository.remove(student);
+    } catch (error) {
+      console.error('you got error in Service class ', error);
+      throw new HttpException(
+        `You got error in service class ${error}`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  
 
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth

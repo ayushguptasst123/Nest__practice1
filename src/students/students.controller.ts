@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -115,5 +116,10 @@ export class StudentController {
   @Delete('/soft')
   softDeleteStudent(@Query('id') id: string) {
     return this.studentService.softDeleteStudent(id);
+  }
+
+  @Delete('/remove')
+  removeStudent(@Query('id') id: string) {
+    return this.studentService.removeStudent(id);
   }
 }
