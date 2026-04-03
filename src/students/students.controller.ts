@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { StudentService } from './students.service';
+import { UpdateStudentDto } from './dtos/update-student.dto';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
@@ -70,6 +71,14 @@ export class StudentController {
   // ************************************
   // Update students to db
   // ************************************
+
+  @Put(':id')
+  updateStudent(
+    @Param('id') id: string,
+    @Body() updateStudentDto: UpdateStudentDto,
+  ) {
+    return this.studentService.updateStudent(id, updateStudentDto);
+  }
 
   // ************************************
   // Delete students from db

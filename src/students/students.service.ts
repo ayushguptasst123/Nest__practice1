@@ -11,17 +11,23 @@ export class StudentService {
     private studentRepository: Repository<Student>,
   ) {}
 
-  // ***************************
+  // **************************************
   // FIND STUDENTS FUNCTIONS HERE
-  // ***************************
+  // **************************************
   async findById(id: string) {
     const student = await this.studentRepository.findOneBy({ id });
-    if (!student) throw new BadRequestException();
+    if (!student)
+      throw new BadRequestException(`Student not found with id: ${id}`);
     return student;
   }
 
   async findAll(): Promise<Student[]> {
-    return await this.studentRepository.query('select * from user.students');
+    const fetchedStudent: Student[] = await this.studentRepository.find();
+
+    if (fetchedStudent.length === 0)
+      throw new BadRequestException('No Student found');
+
+    return fetchedStudent;
   }
 
   async findByEmail(email: string) {
@@ -65,9 +71,9 @@ export class StudentService {
     });
   }
 
-  // ***************************
+  // **************************************
   // SAVE STUDENT FUNCTIONS HERE
-  // ***************************
+  // **************************************
   async insertOneIntoDb(student: CreateStudentDto) {
     const fetchedStudent = await this.findByEmail(student.email);
     if (fetchedStudent.length != 0) {
@@ -79,7 +85,9 @@ export class StudentService {
     createStudent.password = `hashed_${student.password}`;
     createStudent.age = this.calculateAge(student.dateOfBirth);
 
-    return await this.studentRepository.save(student);
+    const value = await this.studentRepository.save(createStudent);
+    console.log(value);
+    return value;
   }
 
   async saveViaInsert(student: CreateStudentDto) {
@@ -92,17 +100,26 @@ export class StudentService {
     createStudent.password = `hashed_${student.password}`;
     createStudent.age = this.calculateAge(student.dateOfBirth);
 
-    await this.studentRepository.insert(createStudent);
+    const value = await this.studentRepository.insert(createStudent);
+    console.log(value);
+
     return createStudent;
   }
 
-  // ***************************
+  // **************************************
   // UPDATE STUDENT FUNCTIONS HERE
-  // ***************************
+  // **************************************
 
-  // ***************************
+  async updateStudent(id: string, updateStudentDto: Partial<Student>) {
+    const fetchedStudent = await this.findById(id);
+    console.log(updateStudentDto);
+    Object.assign(fetchedStudent, updateStudentDto);
+    return await this.studentRepository.save(fetchedStudent);
+  }
+
+  // **************************************
   // REMOVE STUDENT FUNCTIONS HERE
-  // ***************************
+  // **************************************
 
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth
