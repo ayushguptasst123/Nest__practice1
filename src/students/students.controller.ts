@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -105,4 +106,9 @@ export class StudentController {
   // ************************************
   // Delete students from db
   // ************************************
+
+  @Delete('/delete')
+  deleteStudent(@Query('id') id: string) {
+    return this.studentService.deleteStudent(id);
+  }
 }

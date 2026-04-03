@@ -118,7 +118,6 @@ export class StudentService {
   // **************************************
   // UPDATE STUDENT FUNCTIONS HERE
   // **************************************
-
   async updateStudent(id: string, updateStudentDto: UpdateStudentDto) {
     const fetchedStudent = await this.findById(id);
 
@@ -144,6 +143,10 @@ export class StudentService {
   // **************************************
   // REMOVE STUDENT FUNCTIONS HERE
   // **************************************
+
+  async deleteStudent(id: string) {
+    return await this.studentRepository.delete(id);
+  }
 
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth
