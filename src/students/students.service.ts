@@ -148,6 +148,10 @@ export class StudentService {
     return await this.studentRepository.delete(id);
   }
 
+  async softDeleteStudent(id: string) {
+    return await this.studentRepository.softDelete(id);
+  }
+
   // -------------------------------------------------
   // Calculate the age based on the given dateOfBirth
   // -------------------------------------------------

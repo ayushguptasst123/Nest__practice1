@@ -111,4 +111,9 @@ export class StudentController {
   deleteStudent(@Query('id') id: string) {
     return this.studentService.deleteStudent(id);
   }
+
+  @Delete('/soft')
+  softDeleteStudent(@Query('id') id: string) {
+    return this.studentService.softDeleteStudent(id);
+  }
 }
