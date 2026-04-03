@@ -100,6 +100,11 @@ export class StudentController {
     );
   }
 
+  @Patch('/restore-student')
+  restoreStudent(@Query('id') id: string) {
+    return this.studentService.restoreStudent(id);
+  }
+
   @Patch(':id')
   updateStudent(
     @Param('id') id: string,

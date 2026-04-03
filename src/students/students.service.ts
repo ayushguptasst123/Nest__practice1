@@ -130,6 +130,10 @@ export class StudentService {
     return await this.studentRepository.insert(studentWithAge);
   }
 
+  async restoreStudent(id: string) {
+    return await this.studentRepository.restore(id);
+  }
+
   // **************************************
   // UPDATE STUDENT FUNCTIONS HERE
   // **************************************
