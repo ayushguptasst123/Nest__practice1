@@ -3,6 +3,7 @@ import { Between, Like, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
+import { UpdateStudentDto } from './dtos/update-student.dto';
 
 @Injectable()
 export class StudentService {
@@ -110,11 +111,26 @@ export class StudentService {
   // UPDATE STUDENT FUNCTIONS HERE
   // **************************************
 
-  async updateStudent(id: string, updateStudentDto: Partial<Student>) {
+  async updateStudent(id: string, updateStudentDto: UpdateStudentDto) {
     const fetchedStudent = await this.findById(id);
-    console.log(updateStudentDto);
+
     Object.assign(fetchedStudent, updateStudentDto);
     return await this.studentRepository.save(fetchedStudent);
+  }
+
+  async updateStudentWithLikeCase(
+    likeCase: string,
+    updateStudentDto: UpdateStudentDto,
+  ) {
+    const fetchedStudent = await this.findBasedOnLike(likeCase);
+
+    const updatedStudent = await Promise.all(
+      fetchedStudent.map((student) => {
+        return this.studentRepository.update(student.id, updateStudentDto);
+      }),
+    );
+
+    return updatedStudent;
   }
 
   // **************************************

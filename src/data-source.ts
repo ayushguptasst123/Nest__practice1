@@ -25,8 +25,8 @@ import { Book } from './books/entities/book.entity';
 dotenv.config();
 
 // DOUBT ON !
-console.log(process.env.DB_PORTS!);
-console.log(process.env.DB_PORTS);
+// console.log(process.env.DB_PORTS!);
+// console.log(process.env.DB_PORTS);
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
