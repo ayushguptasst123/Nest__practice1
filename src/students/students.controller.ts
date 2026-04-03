@@ -68,12 +68,15 @@ export class StudentController {
     return this.studentService.insertOneIntoDb(user);
   }
 
-  /**
-   * This way use .insert() to save data in db
-   */
+  // We use .insert() here
   @Post('/insert')
   insertNewUser(@Body() user: CreateStudentDto) {
     return this.studentService.saveViaInsert(user);
+  }
+
+  @Post('/insert-multiple')
+  insertMultipleFields(@Body() createStudentDto: CreateStudentDto[]) {
+    return this.studentService.insertMultipleStudents(createStudentDto);
   }
 
   // ************************************
@@ -98,6 +101,7 @@ export class StudentController {
   ) {
     return this.studentService.updateStudent(id, updateStudentDto);
   }
+
   // ************************************
   // Delete students from db
   // ************************************

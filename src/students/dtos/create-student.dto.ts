@@ -18,9 +18,6 @@ export class CreateStudentDto {
   @IsString()
   password: string;
 
-  @IsOptional()
-  age: number;
-
   @IsDate()
   @Type(() => Date)
   dateOfBirth: Date;

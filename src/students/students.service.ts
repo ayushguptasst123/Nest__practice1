@@ -107,6 +107,14 @@ export class StudentService {
     return createStudent;
   }
 
+  async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
+    const studentWithAge = createStudentDto.map((student) => {
+      return { ...student, age: this.calculateAge(student.dateOfBirth) };
+    });
+
+    return await this.studentRepository.insert(studentWithAge);
+  }
+
   // **************************************
   // UPDATE STUDENT FUNCTIONS HERE
   // **************************************
