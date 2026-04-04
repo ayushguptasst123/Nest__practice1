@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { randomBytes, scrypt } from 'crypto';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
 import { StudentService } from 'src/students/students.service';
@@ -24,18 +28,36 @@ export class AuthService {
     const salt = randomBytes(8).toString('hex');
 
     const hash = (await myScrypt(student.password, salt, 32)) as Buffer;
+    // Generate same hash is password is same
+    // const hash = (await myScrypt(
+    //   student.password,
+    //   student.password,
+    //   32,
+    // )) as Buffer;
 
     student.password = salt + '.' + hash.toString('hex');
 
-    /*
-    Is it a good approach to hand over the student dto obj to student service 
-    or we have to handle it here
-    */
     return await this.studentService.save(student);
   }
 
-  signIn(email: string, password: string) {
-    console.log(email, password);
-    return { email, password };
+  async signIn(email: string, password: string) {
+    const [fetchedStudent] = await this.studentService.findByEmail(email);
+
+    if (!fetchedStudent)
+      throw new NotFoundException(`Student with email ${email} didn't exists`);
+
+    const fetchedPassword = fetchedStudent.password;
+
+    const [passwordSalt, storedHash] = fetchedPassword.split('.');
+
+    const hashPassword = (await myScrypt(password, passwordSalt, 32)) as Buffer;
+
+    console.log(hashPassword.toString('hex'));
+    console.log(storedHash);
+
+    if (hashPassword.toString('hex') !== storedHash)
+      throw new BadRequestException('Incorrect Password');
+
+    return fetchedStudent;
   }
 }
