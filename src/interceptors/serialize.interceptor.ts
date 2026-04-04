@@ -1,0 +1,44 @@
+import {
+  CallHandler,
+  ExecutionContext,
+  NestInterceptor,
+  UseInterceptors,
+} from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
+import { response } from 'express';
+import { catchError, map, Observable } from 'rxjs';
+
+export function Serialize(dto) {
+  return UseInterceptors(new SerializeInterceptor(dto));
+}
+
+export class SerializeInterceptor implements NestInterceptor {
+  constructor(private dto: any) {}
+
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<any>,
+  ): Observable<any> {
+    console.log("I'm running before the server hits");
+
+    return next.handle().pipe(
+      map((data) => {
+        console.log(`Running before the response send back`);
+        return {
+          success: true,
+          statusCode: response.statusCode.toString(),
+          payload: {
+            data: plainToInstance(this.dto, data, {
+              excludeExtraneousValues: true,
+              //If we don't use `excludeExtraneousValues` then it can't transform to the given dto
+            }),
+          },
+        };
+      }),
+      catchError((err) => {
+        console.log('executed');
+        throw err;
+      }),
+    );
+  }
+}

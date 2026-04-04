@@ -11,10 +11,13 @@ import {
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { StudentService } from './students.service';
 import { UpdateStudentDto } from './dtos/update-student.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { StudentDto } from './dtos/student.dto';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
  */
+@Serialize(StudentDto)
 @Controller('student')
 export class StudentController {
   constructor(private studentService: StudentService) {
@@ -31,6 +34,7 @@ export class StudentController {
 
   @Get('/lastName')
   showBasedOnLastName(@Query('lastName') lastName: string) {
+    console.log('run After interceptor ');
     return this.studentService.findByLastName(lastName);
   }
 
