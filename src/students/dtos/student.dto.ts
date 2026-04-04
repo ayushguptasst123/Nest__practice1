@@ -23,6 +23,9 @@ export class StudentDto {
   address: string;
 
   @Expose()
+  dateOfBirth: string;
+
+  @Expose()
   phoneNumber: string;
 
   @Expose()
