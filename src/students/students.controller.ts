@@ -73,10 +73,6 @@ export class StudentController {
   // ************************************
   // Save students to db
   // ************************************
-  @Post('/create')
-  createNewUser(@Body() user: CreateStudentDto) {
-    return this.studentService.insertOneIntoDb(user);
-  }
 
   // We use .insert() here
   @Post('/insert')

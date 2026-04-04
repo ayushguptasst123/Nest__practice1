@@ -8,7 +8,7 @@ import { Student } from './entities/student.entity';
   providers: [StudentService],
   controllers: [StudentController],
   imports: [TypeOrmModule.forFeature([Student])],
-  exports: [StudentService],
+  exports: [StudentService, TypeOrmModule],
 })
 export class StudentModule {
   constructor() {

@@ -90,20 +90,10 @@ export class StudentService {
   // **************************************
   // SAVE STUDENT FUNCTIONS HERE
   // **************************************
-  async insertOneIntoDb(student: CreateStudentDto) {
-    const fetchedStudent = await this.findByEmail(student.email);
-    if (fetchedStudent.length != 0) {
-      throw new BadRequestException('Email already exists');
-    }
-
+  async save(student: CreateStudentDto) {
     const createStudent = this.studentRepository.create(student);
 
-    createStudent.password = `hashed_${student.password}`;
-    createStudent.age = this.calculateAge(student.dateOfBirth);
-
-    const value = await this.studentRepository.save(createStudent);
-    console.log(value);
-    return value;
+    return await this.studentRepository.save(createStudent);
   }
 
   async saveViaInsert(student: CreateStudentDto) {
