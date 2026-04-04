@@ -22,7 +22,7 @@ export class SerializeInterceptor implements NestInterceptor {
     console.log("I'm running before the server hits");
 
     return next.handle().pipe(
-      map((data) => {
+      map((data: unknown) => {
         console.log(`Running before the response send back`);
         return {
           success: true,
