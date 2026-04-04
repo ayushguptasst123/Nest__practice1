@@ -8,6 +8,7 @@ import { plainToInstance } from 'class-transformer';
 import { response } from 'express';
 import { catchError, map, Observable } from 'rxjs';
 
+// This is custom decorator
 export function Serialize(dto) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
@@ -22,7 +23,7 @@ export class SerializeInterceptor implements NestInterceptor {
     console.log("I'm running before the server hits");
 
     return next.handle().pipe(
-      map((data) => {
+      map((data: unknown) => {
         console.log(`Running before the response send back`);
         return {
           success: true,

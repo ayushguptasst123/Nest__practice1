@@ -1,17 +1,23 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
+import { Student } from '../entities/student.entity';
 
 export class StudentDto {
   @Expose()
   id: string;
 
   @Expose()
-  firstName: string;
+  @Transform(({ obj }: { obj: Student }) => {
+    const dobYear = obj.dateOfBirth.getFullYear();
+    const currYear = new Date().getFullYear();
+    return currYear - dobYear;
+  })
+  age: Date;
 
   @Expose()
-  lastName: string;
-
-  @Expose()
-  dateOfBirth: Date;
+  @Transform(({ obj }: { obj: Student }) => {
+    return `${obj.firstName} ${obj.lastName}`;
+  })
+  name: string;
 
   @Expose()
   address: string;
@@ -24,4 +30,9 @@ export class StudentDto {
 
   @Expose()
   description: string;
+
+  // This property didn't exists and nest don't give error.
+  // It just ignore it just like your crush
+  @Expose()
+  descriptionAgain: string;
 }
