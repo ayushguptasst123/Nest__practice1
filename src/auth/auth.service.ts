@@ -55,4 +55,8 @@ export class AuthService {
 
     return fetchedStudent;
   }
+
+  async whoAmI(userId: string) {
+    return await this.studentService.findById(userId);
+  }
 }
