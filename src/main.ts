@@ -10,7 +10,8 @@ async function bootstrap() {
   app.use(
     cookieSession({
       keys: ['92fae62d378f509', '38de2491a0578fa'], //used to sign and verify cookie
-      maxAge: 1000 * 6,
+      // secret: '92fae62d378f509',
+      maxAge: 1000 * 60,
     }),
   );
 
