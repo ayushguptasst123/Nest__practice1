@@ -44,18 +44,13 @@ export class AuthService {
     const [fetchedStudent] = await this.studentService.findByEmail(email);
 
     if (!fetchedStudent)
-      throw new NotFoundException(`Student with email ${email} didn't exists`);
+      throw new NotFoundException(`Student with email ${email} not found`);
 
-    const fetchedPassword = fetchedStudent.password;
+    const [salt, studentSavedPassword] = fetchedStudent.password.split('.');
 
-    const [passwordSalt, storedHash] = fetchedPassword.split('.');
+    const hash = (await myScrypt(password, salt, 32)) as Buffer;
 
-    const hashPassword = (await myScrypt(password, passwordSalt, 32)) as Buffer;
-
-    console.log(hashPassword.toString('hex'));
-    console.log(storedHash);
-
-    if (hashPassword.toString('hex') !== storedHash)
+    if (studentSavedPassword !== hash.toString('hex'))
       throw new BadRequestException('Incorrect Password');
 
     return fetchedStudent;
