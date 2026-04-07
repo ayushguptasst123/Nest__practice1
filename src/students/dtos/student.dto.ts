@@ -7,14 +7,6 @@ export class StudentDto {
 
   @Expose()
   @Transform(({ obj }: { obj: Student }) => {
-    const dobYear = obj.dateOfBirth.getFullYear();
-    const currYear = new Date().getFullYear();
-    return currYear - dobYear;
-  })
-  age: Date;
-
-  @Expose()
-  @Transform(({ obj }: { obj: Student }) => {
     return `${obj.firstName} ${obj.lastName}`;
   })
   name: string;

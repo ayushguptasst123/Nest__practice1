@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Session } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Session } from '@nestjs/common';
 import { StudentAuthDto } from './dtos/student-auth.dto';
 import { AuthService } from './auth.service';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
@@ -8,7 +8,7 @@ import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student } from 'src/students/entities/student.entity';
 
 export interface StudentSession {
-  studentId: string;
+  studentId?: string;
 }
 
 @Controller('auth')
@@ -27,6 +27,7 @@ export class AuthController {
   }
 
   @Post('/signin')
+  @HttpCode(200)
   async signIn(
     @Body() studentAuth: StudentAuthDto,
     @Session() session: StudentSession,
@@ -43,5 +44,10 @@ export class AuthController {
   whoAmI(@CurrentStudent() student: Student) {
     console.log(student);
     return student;
+  }
+
+  @Get('/signout')
+  signOut(@Session() session: StudentSession) {
+    session.studentId = undefined;
   }
 }

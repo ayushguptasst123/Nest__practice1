@@ -43,25 +43,9 @@ export class StudentController {
     return this.studentService.findRemovedStudents();
   }
 
-  @Get('/showBetween')
-  showSpecificGroup(
-    @Query('fromAge') fromAge: string,
-    @Query('toAge') toAge: string,
-  ) {
-    return this.studentService.findStudentBetweenAge(fromAge, toAge);
-  }
-
   @Get('/like')
   showBasedOnLike(@Query('description') description: string) {
     return this.studentService.findBasedOnLike(description);
-  }
-
-  @Get('/sort')
-  showBasedOnSort(
-    @Query('sortField') sortColumn: string,
-    @Query('order') sortOrder: string,
-  ) {
-    return this.studentService.findWithSortAge(sortColumn, sortOrder);
   }
 
   @Get(':id')
@@ -130,10 +114,5 @@ export class StudentController {
   @Delete('/remove')
   removeStudent(@Query('id') id: string) {
     return this.studentService.removeStudent(id);
-  }
-
-  @Delete('/age')
-  deleteStudentBasedOnAge(@Query('age') age: string) {
-    return this.studentService.deleteBasedOnAge(parseInt(age));
   }
 }

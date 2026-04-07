@@ -1,10 +1,9 @@
 import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
+  ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
-import { Between, IsNull, Like, Not, Repository } from 'typeorm';
+import { IsNull, Like, Not, Repository } from 'typeorm';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
@@ -23,23 +22,20 @@ export class StudentService {
   async findById(id: string) {
     const student = await this.studentRepository.findOneBy({ id });
     if (!student)
-      throw new BadRequestException(`Student not found with id: ${id}`);
+      throw new NotFoundException(`Student not found with id: ${id}`);
     return student;
   }
 
   async findAll(): Promise<Student[]> {
     const fetchedStudent: Student[] = await this.studentRepository.find();
 
-    if (fetchedStudent.length === 0)
-      throw new BadRequestException('No Student found');
-
     return fetchedStudent;
   }
 
+  // SELECT * FROM student WHERE deletedAt IS NOT NULL;
   async findRemovedStudents() {
-    console.log('Hii there');
     return await this.studentRepository.find({
-      withDeleted: true,
+      withDeleted: true, //include soft delete rows
       where: {
         deletedAt: Not(IsNull()),
       },
@@ -47,7 +43,13 @@ export class StudentService {
   }
 
   async findByEmail(email: string) {
-    return await this.studentRepository.find({ where: { email } });
+    const foundStudent = await this.studentRepository.find({
+      where: { email },
+    });
+    if (!foundStudent)
+      throw new NotFoundException(`Student not found with email: ${email}`);
+
+    return foundStudent;
   }
 
   async findByLastName(lastName: string) {
@@ -56,35 +58,15 @@ export class StudentService {
     });
 
     if (foundStudent.length === 0)
-      throw new BadRequestException(`Student didn't exists with ${lastName}`);
+      throw new NotFoundException(`Student didn't exists with ${lastName}`);
     return foundStudent;
-  }
-
-  async findStudentBetweenAge(fromAge, toAge) {
-    const fetchedStudent = await this.studentRepository.find({
-      where: { age: Between(fromAge, toAge) },
-    });
-
-    if (fetchedStudent.length === 0)
-      throw new BadRequestException(
-        `Students between ${fromAge}-${toAge} is not exists`,
-      );
-
-    return fetchedStudent;
   }
 
   async findBasedOnLike(description: string) {
     const fetchedStudent = await this.studentRepository.find({
       where: { description: Like(`%${description}%`) },
     });
-    if (fetchedStudent.length === 0) throw new BadRequestException('Not Found');
     return fetchedStudent;
-  }
-
-  async findWithSortAge(sort: string, sortOrder: string) {
-    return this.studentRepository.find({
-      order: { [sort]: sortOrder.toUpperCase() },
-    });
   }
 
   // **************************************
@@ -97,14 +79,10 @@ export class StudentService {
   }
 
   async saveViaInsert(student: CreateStudentDto) {
-    const fetchedStudent = await this.findByEmail(student.email);
-    if (fetchedStudent.length != 0) {
-      throw new BadRequestException('Email already exists');
-    }
+    await this.findByEmail(student.email);
 
     const createStudent = this.studentRepository.create(student);
     createStudent.password = `hashed_${student.password}`;
-    createStudent.age = this.calculateAge(student.dateOfBirth);
 
     const value = await this.studentRepository.insert(createStudent);
     console.log(value);
@@ -112,16 +90,36 @@ export class StudentService {
     return createStudent;
   }
 
-  async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
-    const studentWithAge = createStudentDto.map((student) => {
-      return { ...student, age: this.calculateAge(student.dateOfBirth) };
-    });
+  // async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
+  //   try {
+  //     return await this.studentRepository.insert(createStudentDto);
+  //   } catch (err) {
+  //     console.log(err);
+  //     throw new ConflictException('Some Email is already in use');
+  //   }
+  // }
 
-    return await this.studentRepository.insert(studentWithAge);
+  async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
+    try {
+      return await this.studentRepository.insert(createStudentDto);
+    } catch (err) {
+      if (
+        typeof err === 'object' &&
+        err !== null &&
+        'errno' in err &&
+        (err as { errno: number }).errno === 1062
+      ) {
+        throw new ConflictException('One or more emails already exist');
+      }
+      throw err;
+    }
   }
 
   async restoreStudent(id: string) {
-    return await this.studentRepository.restore(id);
+    const restoredStudent = await this.studentRepository.restore(id);
+    if (!restoredStudent)
+      throw new NotFoundException(`Student with id: ${id} didn't found`);
+    return restoredStudent;
   }
 
   // **************************************
@@ -154,55 +152,27 @@ export class StudentService {
   // **************************************
 
   async deleteStudent(id: string) {
-    return await this.studentRepository.delete(id);
+    await this.findById(id);
+    await this.studentRepository.delete(id);
+
+    return {
+      message: 'Student selected successfully',
+    };
   }
 
   async softDeleteStudent(id: string) {
-    return await this.studentRepository.softDelete(id);
+    await this.findById(id);
+    await this.studentRepository.softDelete(id);
+    return {
+      message: 'Soft deleted successfully',
+    };
   }
 
   async removeStudent(id: string) {
-    try {
-      const student = await this.findById(id);
-      return await this.studentRepository.remove(student);
-    } catch (error) {
-      console.error('you got error in Service class ', error);
-      throw new HttpException(
-        `You got error in service class ${error}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
-
-  async deleteBasedOnAge(age: number) {
-    try {
-      return await this.studentRepository.delete({ age });
-    } catch (error) {
-      console.error('you got error in Service class ', error);
-      throw new HttpException(
-        `You got error in service class ${error}`,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-  }
-  // -------------------------------------------------
-  // Calculate the age based on the given dateOfBirth
-  // -------------------------------------------------
-  calculateAge(dob: Date) {
-    const birthDate = new Date(dob);
-    const today = new Date();
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-
-    return age;
+    const student = await this.findById(id);
+    await this.studentRepository.remove(student);
+    return {
+      message: 'Student removed successfully',
+    };
   }
 }

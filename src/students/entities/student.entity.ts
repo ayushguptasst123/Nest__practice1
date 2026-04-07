@@ -22,11 +22,6 @@ export class Student {
   @Column()
   lastName: string;
 
-  @Column({
-    type: 'int',
-  })
-  age: number;
-
   @Column()
   dateOfBirth: Date;
 

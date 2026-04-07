@@ -28,12 +28,10 @@ export class SerializeInterceptor implements NestInterceptor {
         return {
           success: true,
           statusCode: response.statusCode.toString(),
-          payload: {
-            data: plainToInstance(this.dto, data, {
-              excludeExtraneousValues: true,
-              //If we don't use `excludeExtraneousValues` then it can't transform to the given dto
-            }),
-          },
+          payload: plainToInstance(this.dto, data, {
+            excludeExtraneousValues: true,
+            //If we don't use `excludeExtraneousValues` then it can't transform to the given dto
+          }),
         };
       }),
       catchError((err) => {

@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  IsStrongPassword,
   MaxLength,
 } from 'class-validator';
 
@@ -16,6 +17,15 @@ export class CreateStudentDto {
   lastName: string;
 
   @IsString()
+  @IsStrongPassword(
+    {
+      minLength: 6,
+      minLowercase: 1,
+      minSymbols: 1,
+      minNumbers: 1,
+    },
+    { message: 'Enter Strong password' },
+  )
   password: string;
 
   @IsDate()

@@ -1,7 +1,8 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { randomBytes, scrypt } from 'crypto';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
@@ -20,7 +21,7 @@ export class AuthService {
       student.email,
     );
 
-    if (fetchedStudent) throw new BadRequestException('Email already in use');
+    if (fetchedStudent) throw new ConflictException('Email already in use');
 
     student['age'] =
       new Date().getFullYear() - student.dateOfBirth.getFullYear();
@@ -51,7 +52,7 @@ export class AuthService {
     const hash = (await myScrypt(password, salt, 32)) as Buffer;
 
     if (studentSavedPassword !== hash.toString('hex'))
-      throw new BadRequestException('Incorrect Password');
+      throw new UnauthorizedException('Invalid email or password');
 
     return fetchedStudent;
   }
