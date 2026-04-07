@@ -1,19 +1,14 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  Post,
-  Session,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Session } from '@nestjs/common';
 import { StudentAuthDto } from './dtos/student-auth.dto';
 import { AuthService } from './auth.service';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { StudentDto } from 'src/students/dtos/student.dto';
+import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
+import { Student } from 'src/students/entities/student.entity';
 
-interface userSession {
-  userId: string;
+export interface StudentSession {
+  studentId: string;
 }
 
 @Controller('auth')
@@ -24,30 +19,29 @@ export class AuthController {
   @Post('/signup')
   async signUp(
     @Body() student: CreateStudentDto,
-    @Session() session: userSession,
+    @Session() session: StudentSession,
   ) {
-    const user = await this.authService.signUp(student);
-    session.userId = user.id;
-    return user;
+    const savedStudent = await this.authService.signUp(student);
+    session.studentId = savedStudent.id;
+    return savedStudent;
   }
 
   @Post('/signin')
   async signIn(
     @Body() studentAuth: StudentAuthDto,
-    @Session() session: userSession,
+    @Session() session: StudentSession,
   ) {
-    const user = await this.authService.signIn(
+    const student = await this.authService.signIn(
       studentAuth.email,
       studentAuth.password,
     );
-    session.userId = user.id;
-    return user;
+    session.studentId = student.id;
+    return student;
   }
 
   @Get('/whoami')
-  async whoAmI(@Session() session: userSession) {
-    if (!session.userId)
-      throw new BadRequestException('Token expire please login again');
-    return await this.authService.whoAmI(session.userId);
+  whoAmI(@CurrentStudent() student: Student) {
+    console.log(student);
+    return student;
   }
 }
