@@ -1,4 +1,12 @@
-import { Body, Controller, Get, HttpCode, Post, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import { StudentAuthDto } from './dtos/student-auth.dto';
 import { AuthService } from './auth.service';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
@@ -6,6 +14,7 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { StudentDto } from 'src/students/dtos/student.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student } from 'src/students/entities/student.entity';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 export interface StudentSession {
   studentId?: string;
@@ -41,6 +50,7 @@ export class AuthController {
   }
 
   @Get('/whoami')
+  @UseGuards(AuthGuard)
   whoAmI(@CurrentStudent() student: Student) {
     console.log(student);
     return student;
