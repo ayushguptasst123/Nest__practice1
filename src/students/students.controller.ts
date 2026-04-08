@@ -46,6 +46,7 @@ export class StudentController {
   }
 
   @Get('/show-removed')
+  @UseGuards(CaptainGuard)
   showRemovedStudents() {
     return this.studentService.findRemovedStudents();
   }
@@ -113,16 +114,19 @@ export class StudentController {
   // Delete students from db
   // ************************************
 
+  @UseGuards(CaptainGuard)
   @Delete('/delete')
   deleteStudent(@Query('id') id: string) {
     return this.studentService.deleteStudent(id);
   }
 
+  @UseGuards(CaptainGuard)
   @Delete('/soft')
   softDeleteStudent(@Query('id') id: string) {
     return this.studentService.softDeleteStudent(id);
   }
 
+  @UseGuards(CaptainGuard)
   @Delete('/remove')
   removeStudent(@Query('id') id: string) {
     return this.studentService.removeStudent(id);

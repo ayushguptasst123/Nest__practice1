@@ -7,10 +7,18 @@ import { DataSource } from 'typeorm';
 import { BooksModule } from './books/books.module';
 import { AppDataSource } from './data-source';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
   imports: [
     StudentModule,
     BooksModule,

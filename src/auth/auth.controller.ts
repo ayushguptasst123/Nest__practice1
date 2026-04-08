@@ -7,6 +7,7 @@ import {
   Post,
   Query,
   Session,
+  SetMetadata,
   UseGuards,
 } from '@nestjs/common';
 import { StudentAuthDto } from './dtos/student-auth.dto';
@@ -18,6 +19,7 @@ import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student, StudentRole } from 'src/students/entities/student.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CaptainGuard } from 'src/guards/captain.guard';
+import { Public } from 'src/decorator/public.decorator';
 
 export interface StudentSession {
   studentId?: string;
@@ -30,6 +32,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
+  @Public()
   async signUp(
     @Body() student: CreateStudentDto,
     @Session() session: StudentSession,
@@ -41,6 +44,7 @@ export class AuthController {
   }
 
   @Post('/signin')
+  @SetMetadata('isPublic', true) //Reflector(present in guard) read this
   @HttpCode(200)
   async signIn(
     @Body() studentAuth: StudentAuthDto,
