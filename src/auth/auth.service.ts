@@ -5,6 +5,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { randomBytes, scrypt } from 'crypto';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
 import { StudentRole } from 'src/students/entities/student.entity';
@@ -15,7 +16,10 @@ const myScrypt = promisify(scrypt);
 
 @Injectable()
 export class AuthService {
-  constructor(private studentService: StudentService) {}
+  constructor(
+    private studentService: StudentService,
+    private configService: ConfigService,
+  ) {}
 
   async signUp(student: CreateStudentDto) {
     // Fetch student is exists or not if not throw error
@@ -25,6 +29,8 @@ export class AuthService {
 
     if (fetchedStudent) throw new BadRequestException('Email already in use');
 
+    // const salt = this.configService.get<string>('APP_SALT');
+    // if (!salt) throw new Error('APP_SALT is not defined in .env');
     const salt = randomBytes(8).toString('hex');
 
     const hash = (await myScrypt(student.password, salt, 32)) as Buffer;
