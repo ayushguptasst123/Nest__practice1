@@ -64,6 +64,7 @@ export class StudentController {
     return this.studentService.saveViaInsert(user);
   }
 
+  @Serialize()
   @Post('/insert-multiple')
   insertMultipleFields(@Body() createStudentDto: CreateStudentDto[]) {
     return this.studentService.insertMultipleStudents(createStudentDto);

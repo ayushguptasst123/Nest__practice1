@@ -99,9 +99,13 @@ export class StudentService {
   //   }
   // }
 
+  // .insert() Either all succeed OR all fail
   async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
     try {
-      return await this.studentRepository.insert(createStudentDto);
+      const savedStudent =
+        await this.studentRepository.insert(createStudentDto);
+      console.log(savedStudent.identifiers);
+      return savedStudent.identifiers;
     } catch (err) {
       if (
         typeof err === 'object' &&

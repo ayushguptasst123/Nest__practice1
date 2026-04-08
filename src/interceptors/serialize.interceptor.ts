@@ -9,7 +9,7 @@ import { response } from 'express';
 import { catchError, map, Observable } from 'rxjs';
 
 // This is custom decorator
-export function Serialize(dto) {
+export function Serialize(dto?: any) {
   return UseInterceptors(new SerializeInterceptor(dto));
 }
 
@@ -24,6 +24,8 @@ export class SerializeInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((data: unknown) => {
+        if (!this.dto) return data;
+
         console.log(`Running before the response send back`);
         return {
           success: true,
