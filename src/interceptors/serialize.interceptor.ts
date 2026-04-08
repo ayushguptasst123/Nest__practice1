@@ -5,7 +5,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { response } from 'express';
+import { Response } from 'express';
 import { catchError, map, Observable } from 'rxjs';
 
 // This is custom decorator
@@ -27,6 +27,8 @@ export class SerializeInterceptor implements NestInterceptor {
         if (!this.dto) return data;
 
         console.log(`Running before the response send back`);
+        const response = context.switchToHttp().getResponse<Response>();
+
         return {
           success: true,
           statusCode: response.statusCode.toString(),
