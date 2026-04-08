@@ -1,5 +1,5 @@
 import {
-  ConflictException,
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -109,7 +109,7 @@ export class StudentService {
         'errno' in err &&
         (err as { errno: number }).errno === 1062
       ) {
-        throw new ConflictException('One or more emails already exist');
+        throw new BadRequestException('One or more emails already exist');
       }
       throw err;
     }

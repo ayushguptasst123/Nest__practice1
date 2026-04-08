@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { Student } from '../entities/student.entity';
+import { Student, StudentRole } from '../entities/student.entity';
 
 export class StudentDto {
   @Expose()
@@ -13,6 +13,9 @@ export class StudentDto {
 
   @Expose()
   address: string;
+
+  @Expose()
+  role: StudentRole;
 
   @Expose()
   dateOfBirth: string;

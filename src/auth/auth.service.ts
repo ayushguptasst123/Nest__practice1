@@ -1,5 +1,5 @@
 import {
-  ConflictException,
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -21,10 +21,7 @@ export class AuthService {
       student.email,
     );
 
-    if (fetchedStudent) throw new ConflictException('Email already in use');
-
-    student['age'] =
-      new Date().getFullYear() - student.dateOfBirth.getFullYear();
+    if (fetchedStudent) throw new BadRequestException('Email already in use');
 
     const salt = randomBytes(8).toString('hex');
 
@@ -37,7 +34,6 @@ export class AuthService {
     // )) as Buffer;
 
     student.password = salt + '.' + hash.toString('hex');
-
     return await this.studentService.save(student);
   }
 

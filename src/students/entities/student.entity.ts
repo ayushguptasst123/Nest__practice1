@@ -1,7 +1,6 @@
 import {
   BeforeInsert,
   BeforeUpdate,
-  Check,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -10,8 +9,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum StudentRole {
+  STUDENT = 'student',
+  MONITOR = 'monitor',
+  CAPTAIN = 'captain',
+}
+
 @Entity('Students')
-@Check(`("age">0 and "age"<=100)`)
 export class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -41,6 +45,13 @@ export class Student {
 
   @Column({ length: 500, nullable: true })
   description: string;
+
+  @Column({
+    type: 'enum',
+    enum: StudentRole,
+    default: StudentRole.STUDENT,
+  })
+  role: StudentRole;
 
   @CreateDateColumn()
   createdAt: Date;
