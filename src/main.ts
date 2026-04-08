@@ -11,7 +11,7 @@ async function bootstrap() {
     cookieSession({
       keys: ['92fae62d378f509', '38de2491a0578fa'], //used to sign and verify cookie
       // secret: '92fae62d378f509',
-      maxAge: 1000 * 60,
+      maxAge: 1000 * 60 * 60,
     }),
   );
 

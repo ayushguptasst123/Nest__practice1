@@ -1,7 +1,7 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { IsNull, Like, Not, Repository } from 'typeorm';
@@ -35,6 +35,22 @@ export class StudentService {
     const fetchedStudent: Student[] = await this.studentRepository.find();
 
     return fetchedStudent;
+  }
+
+  async findPeerRoleOnly(id: string, role: string) {
+    const fetchedStudent = await this.findById(id);
+
+    if ((role as StudentRole) === StudentRole.CAPTAIN) return fetchedStudent;
+    else if ((role as StudentRole) === fetchedStudent.role)
+      return fetchedStudent;
+    else if (
+      (role as StudentRole) === StudentRole.MONITOR &&
+      fetchedStudent.role === StudentRole.STUDENT
+    ) {
+      return fetchedStudent;
+    }
+
+    throw new ForbiddenException("Can't access this");
   }
 
   // SELECT * FROM student WHERE deletedAt IS NOT NULL;

@@ -29,8 +29,8 @@ export class StudentDto {
   @Expose()
   description: string;
 
-  // This property didn't exists and nest don't give error.
-  // It just ignore it just like your crush
+  // This property didn't exists in db and nest don't give error.
+  // It just ignore it
   @Expose()
   descriptionAgain: string;
 }

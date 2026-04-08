@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  Session,
   UseGuards,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dtos/create-student.dto';
@@ -17,6 +18,7 @@ import { StudentDto } from './dtos/student.dto';
 import { CaptainGuard } from 'src/guards/captain.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { MonitorCaptainGuard } from 'src/guards/monitor-captain.guard';
+import { type StudentSession } from 'src/auth/auth.controller';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
@@ -54,9 +56,11 @@ export class StudentController {
   }
 
   @Get(':id')
-  showSingleUser(@Param('id') id: string) {
+  @UseGuards(AuthGuard)
+  showSingleUser(@Param('id') id: string, @Session() session: StudentSession) {
     console.log(typeof id);
-    return this.studentService.findById(id);
+
+    return this.studentService.findPeerRoleOnly(id, session.studentRole!);
   }
 
   // ************************************
