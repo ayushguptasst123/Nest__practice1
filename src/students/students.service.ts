@@ -8,6 +8,10 @@ import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { UpdateStudentDto } from './dtos/update-student.dto';
+import { randomBytes, scrypt } from 'crypto';
+import { promisify } from 'util';
+
+const myScrypt = promisify(scrypt);
 
 @Injectable()
 export class StudentService {
@@ -79,8 +83,6 @@ export class StudentService {
   }
 
   async saveViaInsert(student: CreateStudentDto) {
-    await this.findByEmail(student.email);
-
     const createStudent = this.studentRepository.create(student);
     createStudent.password = `hashed_${student.password}`;
 
@@ -101,9 +103,31 @@ export class StudentService {
 
   // .insert() Either all succeed OR all fail
   async insertMultipleStudents(createStudentDto: CreateStudentDto[]) {
+    const modifiedStudentDto = await Promise.all(
+      createStudentDto.map(async (student) => {
+        const isEmailExists = await this.studentRepository.find({
+          where: { email: student.email },
+        });
+        if (isEmailExists.length != 0) {
+          console.log(isEmailExists);
+          throw new BadRequestException('Email already in use');
+        }
+
+        await this.findByEmail(student.email);
+
+        const salt = randomBytes(8).toString('hex');
+        const hash = (await myScrypt(student.password, salt, 32)) as Buffer;
+
+        return {
+          ...student,
+          password: salt + '.' + hash.toString('hex'),
+        };
+      }),
+    );
+
     try {
       const savedStudent =
-        await this.studentRepository.insert(createStudentDto);
+        await this.studentRepository.insert(modifiedStudentDto);
       console.log(savedStudent.identifiers);
       return savedStudent.identifiers;
     } catch (err) {
@@ -179,4 +203,6 @@ export class StudentService {
       message: 'Student removed successfully',
     };
   }
+
+  async changeRole(id: string, role: string) {}
 }

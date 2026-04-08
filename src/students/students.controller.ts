@@ -116,4 +116,13 @@ export class StudentController {
   removeStudent(@Query('id') id: string) {
     return this.studentService.removeStudent(id);
   }
+
+  // ************************************
+  // Change the role of student
+  // ************************************
+
+  @Get('/change-role/:id')
+  changeStudentRole(@Param('id') id: string, @Query('role') role: string) {
+    return this.studentService.changeRole(id, role);
+  }
 }

@@ -1,0 +1,222 @@
+[
+  {
+    "firstName": "Arjun",
+    "lastName": "Rathore",
+    "dateOfBirth": "1997-10-11",
+    "address": "Udaipur, Rajasthan, India",
+    "phoneNumber": "+919876543220",
+    "email": "arjun@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Leads backend architecture and team decisions.",
+    "role": "monitor"
+  },
+  {
+    "firstName": "Sana",
+    "lastName": "Khan",
+    "dateOfBirth": "1998-05-15",
+    "address": "Mumbai, Maharashtra, India",
+    "phoneNumber": "+919876543221",
+    "email": "sana@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Organizes classroom activities and schedules.",
+    "role": "monitor"
+  },
+  {
+    "firstName": "Vikram",
+    "lastName": "Singh",
+    "dateOfBirth": "1996-12-20",
+    "address": "Jaipur, Rajasthan, India",
+    "phoneNumber": "+919876543222",
+    "email": "vikram@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Ensures discipline during lab sessions.",
+    "role": "monitor"
+  },
+  {
+    "firstName": "Anjali",
+    "lastName": "Sharma",
+    "dateOfBirth": "1999-01-30",
+    "address": "Delhi, India",
+    "phoneNumber": "+919876543223",
+    "email": "anjali@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Manages attendance and student records.",
+    "role": "monitor"
+  },
+  {
+    "firstName": "Rohan",
+    "lastName": "Mehta",
+    "dateOfBirth": "1995-08-12",
+    "address": "Ahmedabad, Gujarat, India",
+    "phoneNumber": "+919876543224",
+    "email": "rohan@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Coordinates inter-school sports events.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Ishita",
+    "lastName": "Iyer",
+    "dateOfBirth": "1997-03-25",
+    "address": "Chennai, Tamil Nadu, India",
+    "phoneNumber": "+919876543225",
+    "email": "ishita@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Captain of the debate and literary club.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Kabir",
+    "lastName": "Das",
+    "dateOfBirth": "1996-11-05",
+    "address": "Kolkata, West Bengal, India",
+    "phoneNumber": "+919876543226",
+    "email": "kabir@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Leads the soccer team in local leagues.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Meera",
+    "lastName": "Nair",
+    "dateOfBirth": "1998-07-19",
+    "address": "Kochi, Kerala, India",
+    "phoneNumber": "+919876543227",
+    "email": "meera@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Heads the cultural committee for annual fests.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Aditya",
+    "lastName": "Verma",
+    "dateOfBirth": "1997-09-09",
+    "address": "Lucknow, Uttar Pradesh, India",
+    "phoneNumber": "+919876543228",
+    "email": "aditya@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Oversees the student council operations.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Pooja",
+    "lastName": "Patel",
+    "dateOfBirth": "1999-04-14",
+    "address": "Surat, Gujarat, India",
+    "phoneNumber": "+919876543229",
+    "email": "pooja@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Captain of the basketball team.",
+    "role": "captain"
+  },
+  {
+    "firstName": "Rahul",
+    "lastName": "Gupta",
+    "dateOfBirth": "2000-02-10",
+    "address": "Bhopal, Madhya Pradesh, India",
+    "phoneNumber": "+919876543230",
+    "email": "rahul@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Focused on learning React and frontend tech.",
+    "role": "student"
+  },
+  {
+    "firstName": "Sneha",
+    "lastName": "Reddy",
+    "dateOfBirth": "2001-06-22",
+    "address": "Hyderabad, Telangana, India",
+    "phoneNumber": "+919876543231",
+    "email": "sneha@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Aspiring data scientist studying Python.",
+    "role": "student"
+  },
+  {
+    "firstName": "Karan",
+    "lastName": "Malhotra",
+    "dateOfBirth": "1998-12-01",
+    "address": "Chandigarh, India",
+    "phoneNumber": "+919876543232",
+    "email": "karan@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Enjoys solving competitive coding problems.",
+    "role": "student"
+  },
+  {
+    "firstName": "Divya",
+    "lastName": "Joshi",
+    "dateOfBirth": "1999-10-05",
+    "address": "Pune, Maharashtra, India",
+    "phoneNumber": "+919876543233",
+    "email": "divya@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Learning UX/UI design principles.",
+    "role": "student"
+  },
+  {
+    "firstName": "Manish",
+    "lastName": "Pandey",
+    "dateOfBirth": "1997-08-20",
+    "address": "Patna, Bihar, India",
+    "phoneNumber": "+919876543234",
+    "email": "manish@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Preparing for civil service examinations.",
+    "role": "student"
+  },
+  {
+    "firstName": "Riya",
+    "lastName": "Sen",
+    "dateOfBirth": "2000-03-11",
+    "address": "Guwahati, Assam, India",
+    "phoneNumber": "+919876543235",
+    "email": "riya@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Majoring in English Literature.",
+    "role": "student"
+  },
+  {
+    "firstName": "Amit",
+    "lastName": "Tiwari",
+    "dateOfBirth": "1996-05-25",
+    "address": "Ranchi, Jharkhand, India",
+    "phoneNumber": "+919876543236",
+    "email": "amit@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Interested in cloud computing and AWS.",
+    "role": "student"
+  },
+  {
+    "firstName": "Nisha",
+    "lastName": "Bose",
+    "dateOfBirth": "2001-09-30",
+    "address": "Bhubaneswar, Odisha, India",
+    "phoneNumber": "+919876543237",
+    "email": "nisha@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Studying environmental engineering.",
+    "role": "student"
+  },
+  {
+    "firstName": "Suresh",
+    "lastName": "Pillai",
+    "dateOfBirth": "1995-01-15",
+    "address": "Madurai, Tamil Nadu, India",
+    "phoneNumber": "+919876543238",
+    "email": "suresh@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Working on a startup project in fintech.",
+    "role": "student"
+  },
+  {
+    "firstName": "Zoya",
+    "lastName": "Akhtar",
+    "dateOfBirth": "1998-11-22",
+    "address": "Srinagar, J&K, India",
+    "phoneNumber": "+919876543239",
+    "email": "zoya@example.com",
+    "password": "Universal@Pass2026!",
+    "description": "Creative writer focusing on short stories.",
+    "role": "student"
+  }
+]
