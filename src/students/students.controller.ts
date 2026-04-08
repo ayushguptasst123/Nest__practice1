@@ -7,12 +7,16 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { StudentService } from './students.service';
 import { UpdateStudentDto } from './dtos/update-student.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { StudentDto } from './dtos/student.dto';
+import { CaptainGuard } from 'src/guards/captain.guard';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { MonitorCaptainGuard } from 'src/guards/monitor-captain.guard';
 
 /**
  * CIRCULAR-DEPENDENCY: We need forwardRef() here if both the class directly calling each other
@@ -28,6 +32,7 @@ export class StudentController {
   // Fetch students from db
   // ************************************
   @Get()
+  @UseGuards(AuthGuard, MonitorCaptainGuard)
   showAllUser() {
     return this.studentService.findAll();
   }
@@ -85,11 +90,13 @@ export class StudentController {
     );
   }
 
+  @UseGuards(CaptainGuard)
   @Patch('/restore-student')
   restoreStudent(@Query('id') id: string) {
     return this.studentService.restoreStudent(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   updateStudent(
     @Param('id') id: string,
