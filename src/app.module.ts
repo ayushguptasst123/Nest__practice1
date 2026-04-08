@@ -3,12 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StudentModule } from './students/students.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
 import { BooksModule } from './books/books.module';
-import { AppDataSource } from './data-source';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Student } from './students/entities/student.entity';
+import { Book } from './books/entities/book.entity';
 
 @Module({
   controllers: [AppController],
@@ -23,7 +24,25 @@ import { AuthGuard } from './guards/auth.guard';
     StudentModule,
     BooksModule,
     AuthModule,
-    TypeOrmModule.forRoot(AppDataSource.options),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'mysql',
+          host: config.get<string>('DB_HOST'),
+          port: config.get<number>('DB_PORT'),
+          username: config.get<string>('DB_USERNAME'),
+          password: config.get<string>('DB_PASSWORD'),
+          database: config.get<string>('DB_NAME'),
+          synchronize: false,
+          entities: [Student, Book],
+        };
+      },
+    }),
   ],
 })
 /** synchronize: true
@@ -32,6 +51,4 @@ import { AuthGuard } from './guards/auth.guard';
  *
  * But we didn't set true on production level
  */
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

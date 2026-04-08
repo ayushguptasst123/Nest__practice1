@@ -35,11 +35,11 @@ export class AuthController {
   @Public()
   async signUp(
     @Body() student: CreateStudentDto,
-    @Session() session: StudentSession,
+    @CurrentStudent() currentStudent: StudentSession,
   ) {
     const savedStudent = await this.authService.signUp(student);
-    session.studentId = savedStudent.id;
-    session.studentRole = savedStudent.role;
+    currentStudent.studentId = savedStudent.id;
+    currentStudent.studentRole = savedStudent.role;
     return savedStudent;
   }
 
@@ -54,6 +54,7 @@ export class AuthController {
       studentAuth.email,
       studentAuth.password,
     );
+
     session.studentId = student.id;
     session.studentRole = student.role;
     return student;

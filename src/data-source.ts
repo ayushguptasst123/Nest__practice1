@@ -4,12 +4,7 @@ import { DataSource } from 'typeorm';
 import { Student } from './students/entities/student.entity';
 import { Book } from './books/entities/book.entity';
 
-// If we don't use .config() then dotenv will not read it
 dotenv.config();
-
-// DOUBT ON !
-// console.log(process.env.DB_PORTS!);
-// console.log(process.env.DB_PORTS);
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
