@@ -3,7 +3,9 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
+  Query,
   Session,
   UseGuards,
 } from '@nestjs/common';
@@ -15,7 +17,7 @@ import { StudentDto } from 'src/students/dtos/student.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student, StudentRole } from 'src/students/entities/student.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { MonitorGuard } from 'src/guards/captain.guard';
+import { CaptainGuard } from 'src/guards/captain.guard';
 
 export interface StudentSession {
   studentId?: string;
@@ -66,13 +68,13 @@ export class AuthController {
     session.studentRole = undefined;
   }
 
-  @Get('/time-table')
-  @UseGuards(AuthGuard, MonitorGuard)
-  timeTable(@Session() session: StudentSession) {
-    return {
-      session: session.studentId,
-      chalk: 34,
-      duster: true,
-    };
+  // ************************************
+  // Change the role of student
+  // ************************************
+
+  @UseGuards(CaptainGuard)
+  @Get('/change-role/:id')
+  changeStudentRole(@Param('id') id: string, @Query('role') role: string) {
+    return this.authService.changeRole(id, role);
   }
 }

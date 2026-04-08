@@ -1,10 +1,11 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { IsNull, Like, Not, Repository } from 'typeorm';
-import { Student } from './entities/student.entity';
+import { Student, StudentRole } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { UpdateStudentDto } from './dtos/update-student.dto';
@@ -203,6 +204,4 @@ export class StudentService {
       message: 'Student removed successfully',
     };
   }
-
-  async changeRole(id: string, role: string) {}
 }

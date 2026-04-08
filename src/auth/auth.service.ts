@@ -1,11 +1,13 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { randomBytes, scrypt } from 'crypto';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
+import { StudentRole } from 'src/students/entities/student.entity';
 import { StudentService } from 'src/students/students.service';
 import { promisify } from 'util';
 
@@ -55,5 +57,17 @@ export class AuthService {
 
   async whoAmI(userId: string) {
     return await this.studentService.findById(userId);
+  }
+
+  async changeRole(id: string, role: string) {
+    const fetchedStudent = await this.studentService.findById(id);
+    fetchedStudent.role = role.toLowerCase() as StudentRole;
+
+    try {
+      return this.studentService.save(fetchedStudent);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException('Something went wrong');
+    }
   }
 }
