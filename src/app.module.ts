@@ -44,7 +44,7 @@ import { Subjects } from './subject/entity/subjects.entity';
           username: config.get<string>('DB_USERNAME'),
           password: config.get<string>('DB_PASSWORD'),
           database: config.get<string>('DB_NAME'),
-          synchronize: true,
+          synchronize: false,
           entities: [Student, Book, Teachers, LibraryCards, Subjects],
         };
       },
