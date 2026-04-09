@@ -55,8 +55,11 @@ export class Student {
   })
   role: StudentRole;
 
-  @OneToMany(() => Book, (book) => book.student)
-  book: Book[];
+  @OneToMany(() => Book, (book) => book.borrowerStudent)
+  borrowedBook: Book[];
+
+  @OneToMany(() => Book, (book) => book.ownerStudent)
+  sellBook: Book[];
 
   @CreateDateColumn()
   createdAt: Date;

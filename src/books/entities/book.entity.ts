@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -44,8 +45,15 @@ export class Book {
   description: string;
 
   // This create col because it's owning side
-  @ManyToOne(() => Student, (student) => student.book)
-  student: Student;
+  @ManyToOne(() => Student, (student) => student.sellBook, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'ownerId' })
+  ownerStudent: Student;
+
+  @ManyToOne(() => Student, (student) => student.borrowedBook)
+  @JoinColumn({ name: 'borrowerId' })
+  borrowerStudent: Student;
 
   // ================
   // Above this

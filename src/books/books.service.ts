@@ -14,7 +14,7 @@ export class BooksService {
 
   save(createBookDto: createBookDto, currentStudent: Student) {
     const createBook = this.bookRepository.create(createBookDto);
-    createBook.student = currentStudent;
+    createBook.ownerStudent = currentStudent;
     return this.bookRepository.save(createBook);
   }
 }
