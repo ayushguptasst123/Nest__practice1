@@ -1,3 +1,4 @@
+import { Book } from 'src/books/entities/book.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -5,6 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -52,6 +54,9 @@ export class Student {
     default: StudentRole.STUDENT,
   })
   role: StudentRole;
+
+  @OneToMany(() => Book, (book) => book.student)
+  book: Book[];
 
   @CreateDateColumn()
   createdAt: Date;

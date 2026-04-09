@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { BookCondition, Subject } from '../dto/create.book.dto';
+import { Student } from 'src/students/entities/student.entity';
 
 @Entity('books')
 export class Book {
@@ -40,6 +42,10 @@ export class Book {
     nullable: true,
   })
   description: string;
+
+  // This create col because it's owning side
+  @ManyToOne(() => Student, (student) => student.book)
+  student: Student;
 
   // ================
   // Above this
