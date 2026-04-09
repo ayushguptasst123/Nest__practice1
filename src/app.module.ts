@@ -10,6 +10,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Student } from './students/entities/student.entity';
 import { Book } from './books/entities/book.entity';
+import { TeacherModule } from './teacher/teacher.module';
+import { Teacher } from './teacher/entity/teacher.entity';
 
 @Module({
   controllers: [AppController],
@@ -39,10 +41,11 @@ import { Book } from './books/entities/book.entity';
           password: config.get<string>('DB_PASSWORD'),
           database: config.get<string>('DB_NAME'),
           synchronize: false,
-          entities: [Student, Book],
+          entities: [Student, Book, Teacher],
         };
       },
     }),
+    TeacherModule,
   ],
 })
 /** synchronize: true
