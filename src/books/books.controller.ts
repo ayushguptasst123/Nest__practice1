@@ -25,6 +25,15 @@ export class BooksController {
     return this.bookService.findAvailableBooks(currentStudent);
   }
 
+  // Get() or Post() ?
+  @Get('/borrow/:id')
+  borrowBook(
+    @Param('id') id: string,
+    @CurrentStudent() currentStudent: Student,
+  ) {
+    return this.bookService.borrowBook(id, currentStudent);
+  }
+
   @Get('/my-borrow')
   showBorrowedBooks(@CurrentStudent() currentStudent: Student) {
     return this.bookService.findMyBorrowingBooks(currentStudent);

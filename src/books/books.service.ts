@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -67,6 +68,23 @@ export class BooksService {
       throw new ForbiddenException('Only owner can modify details');
 
     Object.assign(fetchedBook, updateBookDto);
+    return this.bookRepository.save(fetchedBook);
+  }
+
+  async borrowBook(id: string, currentStudent: Student) {
+    const [fetchedBook] = await this.bookRepository.find({
+      where: { id },
+      relations: { ownerStudent: true, borrowerStudent: true },
+    });
+
+    if (!fetchedBook) throw new NotFoundException('book not found');
+    if (
+      fetchedBook?.borrowerStudent?.id ||
+      fetchedBook.ownerStudent.id === currentStudent.id
+    )
+      throw new BadRequestException("Can't borrow this book");
+
+    fetchedBook.borrowerStudent = currentStudent;
     return this.bookRepository.save(fetchedBook);
   }
 }
