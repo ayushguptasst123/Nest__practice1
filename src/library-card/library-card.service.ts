@@ -20,4 +20,19 @@ export class LibraryCardService {
     card.student = currentStudent;
     return this.libraryCardRepository.save(card);
   }
+
+  findLibraryCard(currentStudent: Student) {
+    return this.libraryCardRepository.findOne({
+      where: { id: currentStudent.libraryCard.id },
+      relations: {
+        student: true,
+      },
+    });
+  }
+
+  removeCard(currentStudent: Student) {
+    const card = currentStudent.libraryCard;
+    console.log(card);
+    return this.libraryCardRepository.remove(card);
+  }
 }

@@ -25,7 +25,14 @@ export class StudentService {
   // FIND STUDENTS FUNCTIONS HERE
   // **************************************
   async findById(id: string) {
-    const student = await this.studentRepository.findOneBy({ id });
+    const student = await this.studentRepository.findOne({
+      where: { id },
+      relations: {
+        libraryCard: true,
+        borrowedBook: true,
+        sellBook: true,
+      },
+    });
     if (!student)
       throw new NotFoundException(`Student not found with id: ${id}`);
     return student;

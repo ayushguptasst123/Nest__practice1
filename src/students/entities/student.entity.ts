@@ -57,7 +57,7 @@ export class Student {
   })
   role: StudentRole;
 
-  @OneToOne(() => LibraryCard)
+  @OneToOne(() => LibraryCard, (card) => card.student)
   libraryCard: LibraryCard;
 
   @OneToMany(() => Book, (book) => book.borrowerStudent)
