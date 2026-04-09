@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
-import { LibraryCardService } from './library-card.service';
+import { LibraryCardService } from './library-cards.service';
 import { CreateLibraryCardDto } from './dtos/create-library-card.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student } from 'src/students/entities/student.entity';

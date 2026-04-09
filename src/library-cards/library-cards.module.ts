@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { LibraryCardController } from './library-card.controller';
-import { LibraryCardService } from './library-card.service';
+import { LibraryCardController } from './library-cards.controller';
+import { LibraryCardService } from './library-cards.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LibraryCard } from './entity/library-card.entity';
+import { LibraryCards } from './entity/library-card.entity';
 import { StudentModule } from 'src/students/students.module';
 
 @Module({
   controllers: [LibraryCardController],
   providers: [LibraryCardService],
-  imports: [TypeOrmModule.forFeature([LibraryCard]), StudentModule],
+  imports: [TypeOrmModule.forFeature([LibraryCards]), StudentModule],
 })
 export class LibraryCardModule {}

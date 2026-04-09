@@ -11,9 +11,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Student } from './students/entities/student.entity';
 import { Book } from './books/entities/book.entity';
 import { TeacherModule } from './teacher/teacher.module';
-import { Teacher } from './teacher/entity/teacher.entity';
-import { LibraryCardModule } from './library-card/library-card.module';
-import { LibraryCard } from './library-card/entity/library-card.entity';
+import { Teachers } from './teacher/entity/teacher.entity';
+import { LibraryCardModule } from './library-cards/library-cards.module';
+import { LibraryCards } from './library-cards/entity/library-card.entity';
+import { SubjectModule } from './subject/subject.module';
+import { Subjects } from './subject/entity/subjects.entity';
 
 @Module({
   controllers: [AppController],
@@ -42,13 +44,14 @@ import { LibraryCard } from './library-card/entity/library-card.entity';
           username: config.get<string>('DB_USERNAME'),
           password: config.get<string>('DB_PASSWORD'),
           database: config.get<string>('DB_NAME'),
-          synchronize: false,
-          entities: [Student, Book, Teacher, LibraryCard],
+          synchronize: true,
+          entities: [Student, Book, Teachers, LibraryCards, Subjects],
         };
       },
     }),
     TeacherModule,
     LibraryCardModule,
+    SubjectModule,
   ],
 })
 /** synchronize: true

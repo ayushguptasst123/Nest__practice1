@@ -1,5 +1,5 @@
 import { Book } from 'src/books/entities/book.entity';
-import { LibraryCard } from 'src/library-card/entity/library-card.entity';
+import { LibraryCards } from 'src/library-cards/entity/library-card.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -57,8 +57,8 @@ export class Student {
   })
   role: StudentRole;
 
-  @OneToOne(() => LibraryCard, (card) => card.student)
-  libraryCard: LibraryCard;
+  @OneToOne(() => LibraryCards, (card) => card.student)
+  libraryCard: LibraryCards;
 
   @OneToMany(() => Book, (book) => book.borrowerStudent)
   borrowedBook: Book[];

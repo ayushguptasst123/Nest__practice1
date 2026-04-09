@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Teacher } from './entity/teacher.entity';
+import { Teachers } from './entity/teacher.entity';
 import { Repository } from 'typeorm';
 import { CreateTeacherDto } from './dtos/create-teacher.dto';
 
 @Injectable()
 export class TeacherService {
   constructor(
-    @InjectRepository(Teacher)
-    private teacherRepository: Repository<Teacher>,
+    @InjectRepository(Teachers)
+    private teacherRepository: Repository<Teachers>,
   ) {}
 
   async createNewTeacher(createTeacherDto: CreateTeacherDto) {

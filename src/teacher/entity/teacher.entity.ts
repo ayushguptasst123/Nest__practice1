@@ -1,3 +1,4 @@
+import { Subjects } from 'src/subject/entity/subjects.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,10 +6,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
-export class Teacher {
+export class Teachers {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,13 +25,11 @@ export class Teacher {
   email: string;
 
   @Column()
-  phone: string;
-
-  @Column()
   experienceYears: number;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @ManyToMany(() => Subjects, (subject) => subject.teachers)
+  @JoinTable()
+  subjects: Subjects[];
 
   @CreateDateColumn()
   createdAt: Date;

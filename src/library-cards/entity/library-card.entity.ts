@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class LibraryCard {
+export class LibraryCards {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
