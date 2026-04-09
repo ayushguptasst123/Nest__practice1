@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { IsNull, Not, Repository } from 'typeorm';
 import { Book } from './entities/book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createBookDto } from './dto/create.book.dto';
 import { Student } from 'src/students/entities/student.entity';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BooksService {
@@ -26,7 +31,6 @@ export class BooksService {
         ownerStudent: true,
       },
     });
-    console.log('Before Filter: ', allBooks);
 
     const filterBooks = allBooks.filter(
       (book) => book.ownerStudent.id != currentStudent.id,
@@ -47,5 +51,22 @@ export class BooksService {
     );
 
     return myBorrowing;
+  }
+
+  async updateMyBook(
+    id: string,
+    updateBookDto: UpdateBookDto,
+    currentStudent: Student,
+  ) {
+    const fetchedBook = await this.bookRepository.findOne({
+      where: { id },
+      relations: { ownerStudent: true },
+    });
+    if (!fetchedBook) throw new NotFoundException('Book not found with id');
+    if (fetchedBook.ownerStudent.id !== currentStudent.id)
+      throw new ForbiddenException('Only owner can modify details');
+
+    Object.assign(fetchedBook, updateBookDto);
+    return this.bookRepository.save(fetchedBook);
   }
 }

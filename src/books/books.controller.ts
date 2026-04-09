@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { createBookDto } from './dto/create.book.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student } from 'src/students/entities/student.entity';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { BookDto } from './dto/book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Controller('books')
 @Serialize(BookDto)
@@ -27,5 +28,14 @@ export class BooksController {
   @Get('/my-borrow')
   showBorrowedBooks(@CurrentStudent() currentStudent: Student) {
     return this.bookService.findMyBorrowingBooks(currentStudent);
+  }
+
+  @Patch('/update/:id')
+  updateMyBook(
+    @Param('id') id: string,
+    @Body() updateBookDto: UpdateBookDto,
+    @CurrentStudent() currentStudent: Student,
+  ) {
+    return this.bookService.updateMyBook(id, updateBookDto, currentStudent);
   }
 }
