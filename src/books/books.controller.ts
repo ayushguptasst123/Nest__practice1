@@ -3,8 +3,11 @@ import { BooksService } from './books.service';
 import { createBookDto } from './dto/create.book.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
 import { Student } from 'src/students/entities/student.entity';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { BookDto } from './dto/book.dto';
 
 @Controller('books')
+@Serialize(BookDto)
 export class BooksController {
   constructor(private bookService: BooksService) {}
 
