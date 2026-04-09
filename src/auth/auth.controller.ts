@@ -33,13 +33,8 @@ export class AuthController {
 
   @Post('/signup')
   @Public()
-  async signUp(
-    @Body() student: CreateStudentDto,
-    @CurrentStudent() currentStudent: StudentSession,
-  ) {
+  async signUp(@Body() student: CreateStudentDto) {
     const savedStudent = await this.authService.signUp(student);
-    currentStudent.studentId = savedStudent.id;
-    currentStudent.studentRole = savedStudent.role;
     return savedStudent;
   }
 
@@ -48,15 +43,15 @@ export class AuthController {
   @HttpCode(200)
   async signIn(
     @Body() studentAuth: StudentAuthDto,
-    @Session() session: StudentSession,
+    @Session() currentStudent: StudentSession,
   ) {
     const student = await this.authService.signIn(
       studentAuth.email,
       studentAuth.password,
     );
-
-    session.studentId = student.id;
-    session.studentRole = student.role;
+    console.log(student);
+    currentStudent.studentId = student.id;
+    currentStudent.studentRole = student.role;
     return student;
   }
 
