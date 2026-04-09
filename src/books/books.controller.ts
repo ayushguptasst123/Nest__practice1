@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { createBookDto } from './dto/create.book.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
@@ -17,5 +17,10 @@ export class BooksController {
     @CurrentStudent() currentStudent: Student,
   ) {
     return this.bookService.save(createBookDto, currentStudent);
+  }
+
+  @Get('/available')
+  showAllAvailableBooks(@CurrentStudent() currentStudent: Student) {
+    return this.bookService.findAvailableBooks(currentStudent);
   }
 }
