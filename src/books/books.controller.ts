@@ -23,4 +23,9 @@ export class BooksController {
   showAllAvailableBooks(@CurrentStudent() currentStudent: Student) {
     return this.bookService.findAvailableBooks(currentStudent);
   }
+
+  @Get('/my-borrow')
+  showBorrowedBooks(@CurrentStudent() currentStudent: Student) {
+    return this.bookService.findMyBorrowingBooks(currentStudent);
+  }
 }
