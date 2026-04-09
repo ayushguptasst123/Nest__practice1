@@ -1,4 +1,5 @@
 import { Book } from 'src/books/entities/book.entity';
+import { LibraryCard } from 'src/library-card/entity/library-card.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -7,6 +8,7 @@ import {
   DeleteDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -54,6 +56,9 @@ export class Student {
     default: StudentRole.STUDENT,
   })
   role: StudentRole;
+
+  @OneToOne(() => LibraryCard)
+  libraryCard: LibraryCard;
 
   @OneToMany(() => Book, (book) => book.borrowerStudent)
   borrowedBook: Book[];

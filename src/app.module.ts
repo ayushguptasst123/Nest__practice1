@@ -12,6 +12,8 @@ import { Student } from './students/entities/student.entity';
 import { Book } from './books/entities/book.entity';
 import { TeacherModule } from './teacher/teacher.module';
 import { Teacher } from './teacher/entity/teacher.entity';
+import { LibraryCardModule } from './library-card/library-card.module';
+import { LibraryCard } from './library-card/entity/library-card.entity';
 
 @Module({
   controllers: [AppController],
@@ -41,11 +43,12 @@ import { Teacher } from './teacher/entity/teacher.entity';
           password: config.get<string>('DB_PASSWORD'),
           database: config.get<string>('DB_NAME'),
           synchronize: false,
-          entities: [Student, Book, Teacher],
+          entities: [Student, Book, Teacher, LibraryCard],
         };
       },
     }),
     TeacherModule,
+    LibraryCardModule,
   ],
 })
 /** synchronize: true
