@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Subjects } from './entity/subjects.entity';
@@ -30,8 +30,37 @@ export class SubjectService {
     const teacher = this.teacherRepository.create(
       createSubjectTeacherDto.teacher,
     );
-    subject.teachers = [teacher];
+    subject.teachers = teacher;
 
     return await this.subjectRepository.save(subject);
+  }
+
+  async showTeachers(id: string) {
+    const subjects = await this.subjectRepository.find({
+      where: { id },
+      relations: { teachers: true },
+    });
+
+    console.log(subjects);
+    return subjects;
+  }
+
+  async assignTeachers(subjectId: string, teacherId: string) {
+    const subject = await this.subjectRepository.findOne({
+      where: { id: subjectId },
+      relations: { teachers: true },
+    });
+
+    const teacher = await this.teacherRepository.findOne({
+      where: { id: teacherId },
+    });
+
+    if (!subject) throw new NotFoundException('Subject is not found');
+    if (!teacher) throw new NotFoundException('Teacher is not found');
+    if (!subject.teachers) subject.teachers = [];
+
+    subject.teachers.push(teacher);
+
+    return this.subjectRepository.save(subject);
   }
 }

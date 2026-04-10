@@ -10,5 +10,5 @@ export class CreateSubjectTeacherDto {
 
   @ValidateNested()
   @Type(() => CreateTeacherDto)
-  teacher: CreateTeacherDto;
+  teacher: CreateTeacherDto[];
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { SubjectService } from './subject.service';
 import { CreateSubjectDto } from './dtos/create-subject.dto';
 import { Public } from 'src/decorator/public.decorator';
@@ -21,5 +29,20 @@ export class SubjectController {
     createSubjectTeacherDto: CreateSubjectTeacherDto,
   ) {
     return this.subjectService.createSubjectAndTeacher(createSubjectTeacherDto);
+  }
+
+  @Public()
+  @Get('/:id')
+  showTeachers(@Param('id') id: string) {
+    return this.subjectService.showTeachers(id);
+  }
+
+  @Public()
+  @Patch()
+  assignTeachers(
+    @Query('subjectId') subjectId: string,
+    @Query('teacherId') teacherId: string,
+  ) {
+    return this.subjectService.assignTeachers(subjectId, teacherId);
   }
 }
