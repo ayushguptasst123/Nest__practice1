@@ -12,6 +12,8 @@ export class Subjects {
   @Column()
   credits: number;
 
-  @ManyToMany(() => Teachers, (teacher) => teacher.subjects)
+  @ManyToMany(() => Teachers, (teacher) => teacher.subjects, {
+    cascade: ['insert'],
+  })
   teachers: Teachers[];
 }

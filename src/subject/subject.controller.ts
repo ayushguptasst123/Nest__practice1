@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SubjectService } from './subject.service';
-import { CreateSubjectDto } from './dtos/create.subject.dto';
+import { CreateSubjectDto } from './dtos/create-subject.dto';
 import { Public } from 'src/decorator/public.decorator';
-import { CreateTeacherDto } from '../teacher/dtos/create-teacher.dto';
+import { CreateSubjectTeacherDto } from './dtos/create-subject-teacher.dto';
 
 @Controller('subject')
 export class SubjectController {
@@ -16,14 +16,10 @@ export class SubjectController {
 
   @Post('with-teacher')
   @Public()
-  @Public()
   createSubjectAndTeacher(
-    @Body('subject') subjectData: CreateSubjectDto,
-    @Body('teacher') teacherData: CreateTeacherDto,
+    @Body()
+    createSubjectTeacherDto: CreateSubjectTeacherDto,
   ) {
-    return this.subjectService.createSubjectAndTeacher(
-      subjectData,
-      teacherData,
-    );
+    return this.subjectService.createSubjectAndTeacher(createSubjectTeacherDto);
   }
 }

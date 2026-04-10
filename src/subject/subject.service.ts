@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Subjects } from './entity/subjects.entity';
-import { CreateSubjectDto } from './dtos/create.subject.dto';
+import { CreateSubjectDto } from './dtos/create-subject.dto';
 import { Teachers } from '../teacher/entity/teacher.entity';
+import { CreateSubjectTeacherDto } from './dtos/create-subject-teacher.dto';
 
 @Injectable()
 export class SubjectService {
@@ -21,15 +22,16 @@ export class SubjectService {
 
   //   Check the mail and title of book before entry
   async createSubjectAndTeacher(
-    subjectData: CreateSubjectDto,
-    teacherData: Partial<Teachers>,
+    createSubjectTeacherDto: CreateSubjectTeacherDto,
   ) {
-    const subject = this.subjectRepository.create(subjectData);
-    const teacher = this.teacherRepository.create(teacherData);
+    const subject = this.subjectRepository.create(
+      createSubjectTeacherDto.subject,
+    );
+    const teacher = this.teacherRepository.create(
+      createSubjectTeacherDto.teacher,
+    );
+    subject.teachers = [teacher];
 
-    const savedSubject = await this.subjectRepository.save(subject);
-    const savedTeacher = await this.teacherRepository.save(teacher);
-
-    return { subject: savedSubject, teacher: savedTeacher };
+    return await this.subjectRepository.save(subject);
   }
 }
