@@ -20,7 +20,6 @@ export class SubjectService {
     return await this.subjectRepository.save(subject);
   }
 
-  //   Check the mail and title of book before entry
   async createSubjectAndTeacher(
     createSubjectTeacherDto: CreateSubjectTeacherDto,
   ) {
@@ -35,10 +34,10 @@ export class SubjectService {
     return await this.subjectRepository.save(subject);
   }
 
-  async showTeachers(id: string) {
+  async showSubjects(id: string) {
     const subjects = await this.subjectRepository.find({
       where: { id },
-      relations: { teachers: true },
+      // relations: { teachers: true },
     });
 
     console.log(subjects);

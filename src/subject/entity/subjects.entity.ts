@@ -14,6 +14,7 @@ export class Subjects {
 
   @ManyToMany(() => Teachers, (teacher) => teacher.subjects, {
     cascade: ['insert'],
+    eager: true,
   })
   teachers: Teachers[];
 }

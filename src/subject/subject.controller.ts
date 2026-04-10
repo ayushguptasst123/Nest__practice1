@@ -34,8 +34,8 @@ export class SubjectController {
 
   @Public()
   @Get('/:id')
-  showTeachers(@Param('id') id: string) {
-    return this.subjectService.showTeachers(id);
+  showSubjects(@Param('id') id: string) {
+    return this.subjectService.showSubjects(id);
   }
 
   @Public()
