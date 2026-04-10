@@ -45,7 +45,7 @@ export class SubjectService {
     return subjects;
   }
 
-  async assignTeachers(subjectId: string, teacherId: string) {
+  async assignTeacher(subjectId: string, teacherId: string) {
     const subject = await this.subjectRepository.findOne({
       where: { id: subjectId },
       relations: { teachers: true },
@@ -60,6 +60,24 @@ export class SubjectService {
     if (!subject.teachers) subject.teachers = [];
 
     subject.teachers.push(teacher);
+
+    return this.subjectRepository.save(subject);
+  }
+
+  async removeTeacher(subjectId: string, teacherId: string) {
+    const subject = await this.subjectRepository.findOne({
+      where: { id: subjectId },
+      relations: { teachers: true },
+    });
+
+    const teacher = await this.teacherRepository.findOne({
+      where: { id: teacherId },
+    });
+
+    if (!subject) throw new NotFoundException('Subject is not found');
+    if (!teacher) throw new NotFoundException('Teacher is not found');
+
+    subject.teachers = subject.teachers.filter((t) => t.id !== teacher.id);
 
     return this.subjectRepository.save(subject);
   }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -43,6 +44,15 @@ export class SubjectController {
     @Query('subjectId') subjectId: string,
     @Query('teacherId') teacherId: string,
   ) {
-    return this.subjectService.assignTeachers(subjectId, teacherId);
+    return this.subjectService.assignTeacher(subjectId, teacherId);
+  }
+
+  @Public()
+  @Delete()
+  removeTeachers(
+    @Query('subjectId') subjectId: string,
+    @Query('teacherId') teacherId: string,
+  ) {
+    return this.subjectService.removeTeacher(subjectId, teacherId);
   }
 }
