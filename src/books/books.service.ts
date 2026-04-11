@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IsNull, Not, Repository } from 'typeorm';
-import { Book } from './entities/book.entity';
+import { Book } from './entity/book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createBookDto } from './dto/create.book.dto';
-import { Student } from 'src/students/entities/student.entity';
+import { Student } from 'src/students/entity/student.entity';
 import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()

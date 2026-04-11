@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { createBookDto } from './dto/create.book.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
-import { Student } from 'src/students/entities/student.entity';
+import { Student } from 'src/students/entity/student.entity';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { BookDto } from './dto/book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';

@@ -9,7 +9,7 @@ import {
   IsStrongPassword,
   MaxLength,
 } from 'class-validator';
-import { StudentRole } from '../entities/student.entity';
+import { StudentRole } from '../entity/student.entity';
 
 export class CreateStudentDto {
   @IsString()

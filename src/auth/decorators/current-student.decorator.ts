@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Student } from '../../students/entities/student.entity';
+import { Student } from '../../students/entity/student.entity';
 import { Request } from 'express';
 
 interface CustomRequest extends Request {

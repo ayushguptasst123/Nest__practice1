@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { BookCondition, Subject } from '../dto/create.book.dto';
-import { Student } from 'src/students/entities/student.entity';
+import { Student } from 'src/students/entity/student.entity';
 
 @Entity('books')
 export class Book {

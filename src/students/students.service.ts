@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { IsNull, Like, Not, Repository } from 'typeorm';
-import { Student, StudentRole } from './entities/student.entity';
+import { Student, StudentRole } from './entity/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateStudentDto } from './dtos/create-student.dto';
 import { UpdateStudentDto } from './dtos/update-student.dto';

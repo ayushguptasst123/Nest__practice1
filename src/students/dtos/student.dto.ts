@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { Student, StudentRole } from '../entities/student.entity';
+import { Student, StudentRole } from '../entity/student.entity';
 
 export class StudentDto {
   @Expose()

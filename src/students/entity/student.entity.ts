@@ -1,4 +1,4 @@
-import { Book } from 'src/books/entities/book.entity';
+import { Book } from 'src/books/entity/book.entity';
 import { LibraryCards } from 'src/library-cards/entity/library-card.entity';
 import {
   BeforeInsert,

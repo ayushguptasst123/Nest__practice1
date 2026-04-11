@@ -8,7 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { randomBytes, scrypt } from 'crypto';
 import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
-import { StudentRole } from 'src/students/entities/student.entity';
+import { StudentRole } from 'src/students/entity/student.entity';
 import { StudentService } from 'src/students/students.service';
 import { promisify } from 'util';
 

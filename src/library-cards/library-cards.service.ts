@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLibraryCardDto } from './dtos/create-library-card.dto';
-import { Student } from 'src/students/entities/student.entity';
+import { Student } from 'src/students/entity/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LibraryCards } from './entity/library-card.entity';
 import { Repository } from 'typeorm';

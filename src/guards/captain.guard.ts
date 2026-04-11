@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { Request } from 'express';
-import { StudentRole } from 'src/students/entities/student.entity';
+import { StudentRole } from 'src/students/entity/student.entity';
 
 export class CaptainGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {

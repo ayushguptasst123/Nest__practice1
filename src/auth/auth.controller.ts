@@ -16,7 +16,7 @@ import { CreateStudentDto } from 'src/students/dtos/create-student.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { StudentDto } from 'src/students/dtos/student.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
-import { Student, StudentRole } from 'src/students/entities/student.entity';
+import { Student, StudentRole } from 'src/students/entity/student.entity';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CaptainGuard } from 'src/guards/captain.guard';
 import { Public } from 'src/decorator/public.decorator';

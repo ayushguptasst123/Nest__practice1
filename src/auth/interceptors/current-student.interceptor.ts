@@ -4,7 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { Student } from '../../students/entities/student.entity';
+import { Student } from '../../students/entity/student.entity';
 import { UUID } from 'crypto';
 import { StudentService } from '../../students/students.service';
 import { Request } from 'express';

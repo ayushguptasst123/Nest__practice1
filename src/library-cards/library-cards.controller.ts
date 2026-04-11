@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { LibraryCardService } from './library-cards.service';
 import { CreateLibraryCardDto } from './dtos/create-library-card.dto';
 import { CurrentStudent } from 'src/auth/decorators/current-student.decorator';
-import { Student } from 'src/students/entities/student.entity';
+import { Student } from 'src/students/entity/student.entity';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { LibraryCardDto } from './dtos/library-card.dto';
 

@@ -8,14 +8,16 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Student } from './students/entities/student.entity';
-import { Book } from './books/entities/book.entity';
+import { Student } from './students/entity/student.entity';
+import { Book } from './books/entity/book.entity';
 import { TeacherModule } from './teacher/teacher.module';
 import { Teachers } from './teacher/entity/teacher.entity';
 import { LibraryCardModule } from './library-cards/library-cards.module';
 import { LibraryCards } from './library-cards/entity/library-card.entity';
 import { SubjectModule } from './subject/subject.module';
 import { Subjects } from './subject/entity/subjects.entity';
+import { ProfilesModule } from './profiles/profiles.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   controllers: [AppController],
@@ -52,6 +54,8 @@ import { Subjects } from './subject/entity/subjects.entity';
     TeacherModule,
     LibraryCardModule,
     SubjectModule,
+    ProfilesModule,
+    PostsModule,
   ],
 })
 /** synchronize: true
