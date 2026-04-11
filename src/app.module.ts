@@ -17,7 +17,9 @@ import { LibraryCards } from './library-cards/entity/library-card.entity';
 import { SubjectModule } from './subject/subject.module';
 import { Subjects } from './subject/entity/subjects.entity';
 import { ProfilesModule } from './profiles/profiles.module';
-import { PostsModule } from './posts/posts.module';
+import { FeedsModule } from './feeds/feeds.module';
+import { Feed } from './feeds/entity/feed.entity';
+import { Profile } from './profiles/entity/profile.entity';
 
 @Module({
   controllers: [AppController],
@@ -47,7 +49,15 @@ import { PostsModule } from './posts/posts.module';
           password: config.get<string>('DB_PASSWORD'),
           database: config.get<string>('DB_NAME'),
           synchronize: false,
-          entities: [Student, Book, Teachers, LibraryCards, Subjects],
+          entities: [
+            Student,
+            Book,
+            Teachers,
+            LibraryCards,
+            Subjects,
+            Feed,
+            Profile,
+          ],
         };
       },
     }),
@@ -55,7 +65,7 @@ import { PostsModule } from './posts/posts.module';
     LibraryCardModule,
     SubjectModule,
     ProfilesModule,
-    PostsModule,
+    FeedsModule,
   ],
 })
 /** synchronize: true
