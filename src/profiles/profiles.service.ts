@@ -15,4 +15,8 @@ export class ProfilesService {
     const profile = this.profileRepository.create(createProfileDto);
     return this.profileRepository.save(profile);
   }
+
+  findOne(id: number) {
+    return this.profileRepository.findOneBy({ id });
+  }
 }
